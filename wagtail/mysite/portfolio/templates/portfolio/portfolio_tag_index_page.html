@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+
+    {% if request.GET.tag %}
+        <h4>Showing pages tagged "{{ request.GET.tag }}"</h4>
+    {% endif %}
+
+    {% for portfoliopage in portfoliopages %}
+
+          <p>
+              <strong><a href="{% pageurl portfoliopage %}">{{ portfoliopage.title }}</a></strong><br />
+              <small>Revised: {{ portfoliopage.latest_revision_created_at }}</small><br />
+          </p>
+
+    {% empty %}
+        No pages found with that tag.
+    {% endfor %}
+
+{% endblock %}

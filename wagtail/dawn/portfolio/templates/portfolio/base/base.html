@@ -1,0 +1,31 @@
+{% load wagtailcore_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "base/head.html" %}
+</head>
+
+<body class="onovo-body">
+<div class="onovo-page">
+
+		<!-- Preloader -->
+		<div class="preloader">
+			<div class="preloader__spinner">
+				<span class="preloader__double-bounce"></span>
+				<span class="preloader__double-bounce preloader__double-bounce--delay"></span>
+			</div>
+		</div>
+
+{% include "base/navbar.html" %}
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+
+{% include "base/scripts.html" %}
+</div>
+</body>
+</html>
