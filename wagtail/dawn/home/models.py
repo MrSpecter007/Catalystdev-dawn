@@ -8,3 +8,8 @@ class HomePage(Page):
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + ["body"]
+    
+class ContactPage(Page):
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + ["body"]

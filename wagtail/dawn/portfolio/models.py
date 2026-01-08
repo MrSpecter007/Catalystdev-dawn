@@ -15,3 +15,14 @@ class PortfolioPage(Page):
     body = RichTextField(blank=True)
 
     content_panels = Page.content_panels + ["date", "intro", "body"]
+    
+class ServiceIndexPage(Page):
+    intro = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + ["intro"]
+
+class ServicePage(Page):
+    intro = models.CharField(max_length=250)
+    body = RichTextField(blank=True)
+
+    content_panels = Page.content_panels + ["intro", "body"]
