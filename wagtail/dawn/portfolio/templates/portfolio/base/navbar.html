@@ -10,7 +10,7 @@
 
 							<!-- Logo -->
 							<div class="onovo-logo-image" style="max-width: 70px">
-								<a href="index.html">
+								<a href="{% pageurl site_root %}">
 									<img src="{% static 'assets/images/cd-symbol-purple.png' %}" alt="Onovo" />
 									<img class="logo--white" src="{% static 'assets/images/cd-symbol-purple.png' %}" alt="Catalystdev" />
 								</a>
@@ -29,22 +29,8 @@
 										<div class="onovo-menu">
 											<ul class="onovo-menu-nav">
 												<li class="dropdown-link current-menu-item menu-item-has-children">
-													<a class="onovo-lnk lnk--active onovo-dropdown-toggle" href="index.html">Home</a>
-													<i class="icon fas fa-chevron-down"></i>
-													<ul class="sub-menu">
-														<li>
-															<a class="onovo-lnk lnk--active" href="index.html">Creative Agency</a>
-														</li>
-														<li>
-															<a class="onovo-lnk lnk--active" href="home-digital-agency.html">Digital Agency</a>
-														</li>
-														<li>
-															<a class="onovo-lnk lnk--active" href="home-showcase.html">Creative Portfolio</a>
-														</li>
-														<li class="current-menu-item">
-															<a class="onovo-lnk lnk--active" href="home-parallax.html">Fullscreen Parallax</a>
-														</li>
-													</ul>
+													<a class="onovo-lnk lnk--active onovo-dropdown-toggle" href="{% pageurl home_page %}">Home</a>
+													<i class="icon fas fa-chevron-down"></i>					
 												</li>
 												<li class="dropdown-link menu-item-has-children">
 													<a class="onovo-lnk lnk--active onovo-dropdown-toggle" href="about-us.html">About</a>

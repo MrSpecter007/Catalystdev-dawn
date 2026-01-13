@@ -19,20 +19,25 @@
 							<div class="ovrl"></div>
 						</div>
 						<div class="container">
-							<div class="onovo-subtitle-1 onovo-text-white">
-								<span data-splitting> Montreal Creative Agency </span>
-							</div>
-							<div class="title onovo-text-white">
-								<span data-splitting> Let's Make a <br> Catalyst. </span>
-								<span class="sep" style="background-image: url(assets/images/title_after.svg);"></span>
-							</div>
-							<div class="onovo-bts">
-								<a class="onovo-btn btn--border onovo-hover-btn btn--color btn--white" href="project-detail.html">
-									<i class="arrow">
-										<span></span>
-									</i>
-									<span> View Project </span>
-								</a>
+							<div class="row gap-row">
+								<!--service item-->
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="onovo-subtitle-1 onovo-text-white">
+										<span data-splitting> {{ page.parralax_Subtitle }} </span>
+									</div>
+									<div class="title onovo-text-white">
+										<span data-splitting> {{ page.parralax_Title }} </span>
+										<span class="sep" style="background-image: url({% static 'assets/images/title_after.svg' %});"></span>
+									</div>
+									<div class="onovo-bts">
+										<a class="onovo-btn btn--border onovo-hover-btn btn--color btn--white" href="{{ page.parralax_ButtonLink }}">
+											<i class="arrow">
+												<span></span>
+											</i>
+											<span> {{ page.parralax_ButtonText }} </span>
+										</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -42,22 +47,31 @@
 						<section class="onovo-section gap-top-140 gap-bottom-140 onovo-section-bg onovo-section-full">
 						<div class="container">
 							<!-- Heading -->
+							<div class="row gap-row">
 							<div class="onovo-heading gap-bottom-40 align-center">
 								<div class="onovo-subtitle-1">
-									<span> Welcome to Catalystdev </span>
+									<span> {{ page.about_Subtitle }} </span>
 								</div>
 								<h2 class="onovo-title-2">
-									<span>Where Ideas Turn <br />Into Digital Magic.</span>
+									<span>{{ page.about_Title }}</span>
 								</h2>
 							</div>
-
+							</div> 
 							<!-- Description -->
 							<div class="row gap-bottom-60">
 								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 offset-lg-3 align-center">
 									<div class="onovo-text">
-										<p>Catalystdev was born in 2019 at the crossroads of curiosity, creativity, and code. <strong>We’re a Montreal agency where engineers, designers, writers, and strategists unite to build digital experiences that linger</strong>—and software that fits your business like it was made for it. We don’t chase trends; we craft the tools that matter, from unforgettable websites to bespoke ERPs. Complexity becomes clarity, and ordinary ideas turn into digital magic.</p>
+										<p>{{ page.about_Description }}</p>
 									</div>
 								</div>
+							</div>
+							<div class="onovo-bts col-xs-12 col-sm-12 col-md-12 col-lg-6 offset-lg-3 align-center">
+								<a class="onovo-btn btn--border onovo-hover-btn align-center" href="{{ page.about_ButtonLink }}">
+									<i class="arrow">
+										<span></span>
+									</i>
+									<span> {{ page.about_ButtonText }} </span>
+								</a>
 							</div>
 						</div>
 						</section>
@@ -216,21 +230,25 @@
 					</div>
 					<!--slide-->
 					<div class="onovo-hero-parallax-section section--dark">
-						<div class="image" data-dimg="{% static 'assets/images/hero-p-3.jpg' %}" data-mimg="{% static 'assets/images/project-2.jpg' %}"></div>
+						<div class="image" data-dimg="{% static 'assets/images/hero-p-3.jpg' %}"></div>
 						<div class="container">
 							<div class="onovo-subtitle-1 onovo-text-black">
-								<span data-splitting> Design </span>
+								<span data-splitting> {{ page.portfolio_one_Subtitle }} </span>
 							</div>
-							<div class="title onovo-text-black">
-								<span data-splitting> Headphones <br />3D Rendering </span>
-								<span class="sep" style="background-image: url(assets/images/title_after.svg);"></span>
+							<div class="row gap-row">
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="title onovo-text-black">
+										<span data-splitting> {{ page.portfolio_one_Title }} </span>
+										<span class="sep" style="background-image: url({% static 'assets/images/title_after.svg' %});"></span>
+									</div>
+								</div>
 							</div>
 							<div class="onovo-bts">
-								<a class="onovo-btn btn--border onovo-hover-btn" href="project-detail.html">
+								<a class="onovo-btn btn--border onovo-hover-btn" href="{{ page.portfolio_one_ButtonLink }}">
 									<i class="arrow">
 										<span></span>
 									</i>
-									<span> View Project </span>
+									<span> {{ page.portfolio_one_ButtonText }} </span>
 								</a>
 							</div>
 						</div>
@@ -238,21 +256,25 @@
 
 					<!--slide-->
 					<div class="onovo-hero-parallax-section">
-						<div class="image" style="background-image: url(assets/images/hero-27.jpg);" data-dimg="assets/images/hero-27.jpg" data-mimg="assets/images/project-8.jpg"></div>
+						<div class="image" style="background-image: url({% static 'assets/images/hero-27.jpg' %});" data-dimg="{% static 'assets/images/hero-27.jpg' %}" data-mimg="{% static 'assets/images/project-8.jpg' %}"></div>
 						<div class="container">
 							<div class="onovo-subtitle-1 onovo-text-white">
-								<span data-splitting> Design </span>
+								<span data-splitting> {{ page.portfolio_two_Subtitle }} </span>
 							</div>
-							<div class="title onovo-text-white">
-								<span data-splitting> Daily Weather <br>Mobile App </span>
-								<span class="sep" style="background-image: url(assets/images/title_after.svg);"></span>
+							<div class="row gap-row">
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="title onovo-text-white">
+										<span data-splitting> {{ page.portfolio_two_Title }} </span>
+										<span class="sep" style="background-image: url({% static 'assets/images/title_after.svg' %});"></span>
+									</div>
+								</div>
 							</div>
 							<div class="onovo-bts">
-								<a class="onovo-btn btn--border onovo-hover-btn btn--color btn--white" href="project-detail.html">
+								<a class="onovo-btn btn--border onovo-hover-btn btn--color btn--white" href="{{ page.portfolio_two_ButtonLink }}">
 									<i class="arrow">
 										<span></span>
 									</i>
-									<span> View Project </span>
+									<span> {{ page.portfolio_two_ButtonText }} </span>
 								</a>
 							</div>
 						</div>
@@ -260,21 +282,25 @@
 
 					<!--slide-->
 					<div class="onovo-hero-parallax-section section--dark">
-						<div class="image" style="background-image: url(assets/images/hero-p-2-1.jpg);" data-dimg="assets/images/hero-p-2-1.jpg" data-mimg="assets/images/project-2-2.jpg"></div>
+						<div class="image" style="background-image: url({% static 'assets/images/hero-p-2-1.jpg' %});" data-dimg="{% static 'assets/images/hero-p-2-1.jpg' %}" data-mimg="{% static 'assets/images/project-2-2.jpg' %}"></div>
 						<div class="container">
 							<div class="onovo-subtitle-1 onovo-text-black">
-								<span data-splitting> Marketing </span>
+								<span data-splitting> {{ page.portfolio_three_Subtitle }} </span>
 							</div>
-							<div class="title onovo-text-black">
-								<span data-splitting> Market Graph <br>Concept </span>
-								<span class="sep" style="background-image: url(assets/images/title_after.svg);"></span>
+							<div class="row gap-row">
+								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+									<div class="title onovo-text-black">
+										<span data-splitting> {{ page.portfolio_three_Title }} </span>
+										<span class="sep" style="background-image: url({% static 'assets/images/title_after.svg' %});"></span>
+									</div>
+								</div>
 							</div>
 							<div class="onovo-bts">
-								<a class="onovo-btn btn--border onovo-hover-btn" href="project-detail.html">
+								<a class="onovo-btn btn--border onovo-hover-btn" href="{{ page.portfolio_three_ButtonLink }}">
 									<i class="arrow">
 										<span></span>
 									</i>
-									<span> View Project </span>
+									<span> {{ page.portfolio_three_ButtonText }} </span>
 								</a>
 							</div>
 						</div>

@@ -13,18 +13,18 @@
 			<section class="onovo-section onovo-intro intro--black">
 				<div class="container">
 					<h1 class="onovo-title-1  onovo-text-white">
-						<span> Contact Us </span>
+						<span> {{ page.contact_Title }}</span>
 						<span class="onovo-sep word">
 							<i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
 						</span>
 					</h1>
 					<div class="onovo-subtitle-2  onovo-text-white">
-						<span> Have ideas for your business? Let’s build something awesome together. </span>
+						<span> {{ page.contact_Subtitle }} </span>
 					</div>
 					<div class="onovo-breadcrums">
 						<ul>
 							<li>
-								<a href="index.html">Home </a>
+								<a href="/">Home </a>
 							</li>
 							<li class="current">
 								<span>Contact Us</span>
@@ -42,15 +42,15 @@
 
 							<!-- Heading -->
 							<div class="onovo-text gap-bottom-40">
-								<h4>Send Us A Message</h4>
-								Then let us know about it and we can see what we can do to help
+								<h4>{{ page.form_Title }}</h4>
+								{{ page.form_Subtitle }}
 							</div>
 
 							<!-- Form -->
 							<div class="onovo-form">
 								<form id="cform" class="cform" method="post">
 									<div class="row">
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+										<div class="">
 											<p>
 												<input placeholder="Full Name" type="text" name="name" />
 											</p>
@@ -90,8 +90,7 @@
 								<ul>
 									<li>
 										<h5>Contact Info</h5>
-										<a href="tel:+10204302973" class="onovo-lnk lnk--white" target="_blank">+ 1 (020) 430 2973</a><br>
-										<a href="mailto:username@domain.com" class="onovo-lnk lnk--white" target="_blank">username@domain.com</a>
+										<a href="mailto:info@catalystdv.com" class="onovo-lnk lnk--white" target="_blank">info@catalystdv.com</a>
 										<div class="onovo-social-1 onovo-social-active" style="margin-top: 10px;">
 											<ul>
 												<li>
@@ -101,7 +100,7 @@
 												</li>
 												<li>
 													<a href="#" class="onovo-social-link onovo-hover-2">
-														<i class="icon fab fa-twitter"></i>
+														<i class="icon fab fa-instagram"></i>
 													</a>
 												</li>
 												<li>
@@ -113,12 +112,8 @@
 										</div>
 									</li>
 									<li>
-										<h5>Houston</h5>
-										<div>2001 N. Clybourn Avenue Suite 202, <br>Block D, IL 60614</div>
-									</li>
-									<li>
-										<h5>Los Angeles</h5>
-										<div>2001 N. Clybourn Avenue Suite 202</div>
+										<h5>Montreal</h5>
+										<div>4388 R. Saint-Denis #182</div>
 									</li>
 								</ul>
 							</div>
@@ -146,81 +141,22 @@
 					<div class="onovo-faq-items">
 
 						<!--faq item-->
+						{% for block in page.FAQ_Section %}
+						    {% if block.block_type == 'faq' %}
 						<div class="onovo-faq-item onovo-collapse-item">
 							<h5 class="title onovo-collapse-btn">
-								<span> Secure Management and Workforce? </span>
+								<span>{{ block.value.title }}</span>
 								<i class="arrow"></i>
 							</h5>
 							<div class="onovo-text" style="display: none;">
 								<div>
-									<p>Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Etiam ante ex fermentum litora aorquper conuauris ine odi. Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Et iam ante ex fermentum litora aorquper conuauris ine odi.</p>
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectet</li>
-										<li>Duis sed odio sit amet nibh vulputate cursus</li>
-										<li>Duis sed odio sit amet nibh vulputate</li>
-									</ul>
+									<p>{{ block.value.text }}</p>
 								</div>
 							</div>
 						</div>
-
-						<!--faq item-->
-						<div class="onovo-faq-item onovo-collapse-item">
-							<h5 class="title onovo-collapse-btn">
-								<span> Logistics Workforce on Track? </span>
-								<i class="arrow"></i>
-							</h5>
-							<div class="onovo-text" style="display: none;">
-								<div>
-									<p>Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Etiam ante ex fermentum litora aorquper conuauris ine odi. Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Et iam ante ex fermentum litora aorquper conuauris ine odi.</p>
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectet</li>
-										<li>Duis sed odio sit amet nibh vulputate cursus</li>
-										<li>Duis sed odio sit amet nibh vulputate</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-
-						<!--faq item-->
-						<div class="onovo-faq-item onovo-collapse-item">
-							<h5 class="title onovo-collapse-btn">
-								<span> Online Courses &amp; Certification? </span>
-								<i class="arrow"></i>
-							</h5>
-							<div class="onovo-text" style="display: none;">
-								<div>
-									<p>Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Etiam ante ex fermentum litora aorquper conuauris ine odi. Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Et iam ante ex fermentum litora aorquper conuauris ine odi.</p>
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectet</li>
-										<li>Duis sed odio sit amet nibh vulputate cursus</li>
-										<li>Duis sed odio sit amet nibh vulputate</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-
-						<!--faq item-->
-						<div class="onovo-faq-item onovo-collapse-item">
-							<h5 class="title onovo-collapse-btn">
-								<span> Figures and data representative of an organization's? </span>
-								<i class="arrow"></i>
-							</h5>
-							<div class="onovo-text" style="display: none;">
-								<div>
-									<p>Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Etiam ante ex fermentum litora aorquper conuauris ine odi. Duis sed odio sit amet nibh vulputate cursus a sit tellus a odio tincdunt ilm auctor Class apten sociosqu a ds Et iam ante ex fermentum litora aorquper conuauris ine odi.</p>
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectet</li>
-										<li>Duis sed odio sit amet nibh vulputate cursus</li>
-										<li>Duis sed odio sit amet nibh vulputate</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					
+						    {% endif %}
+						{% endfor %}					
 				</div>
 			</section>
-
 		</div>
 {% endblock %}
