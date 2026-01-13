@@ -75,10 +75,10 @@
 									<!--project item-->
 									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 onovo-portfolio-col">
 							
-										<div class="onovo-portfolio-item onovo-portfolio-item-list">
+										<div class="onovo-portfolio-item onovo-portfolio-item-list  {% for tag in project.tags.all %} {{ tag.slug }}{% endfor %}">
 											<div class="image" data-onovo-overlay data-onovo-scroll>
 												<a href="{{ project.url }}" class="onovo-hover-3">
-													{% image project.hero_image fill-1080x800 %}
+													{% image project.hero_image fill-600x450 %}
 												</a>
 											</div>
 											<div class="desc">
