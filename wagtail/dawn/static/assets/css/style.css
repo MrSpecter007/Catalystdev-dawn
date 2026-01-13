@@ -4752,10 +4752,12 @@ ul.onovo-footer-menu li {
 .onovo-portfolio-item-list .onovo-text > div > ul li {
   margin: 0 0 15px 0;
   color: #555;
+  list-style: none;
 }
 
 .onovo-portfolio-item-list .onovo-text > div > ul li strong {
   text-transform: uppercase;
+  list-style: none;
 }
 
 /*---
@@ -5020,6 +5022,7 @@ ul.onovo-footer-menu li {
   }
   .onovo-portfolio-item-list .onovo-text > div > ul li {
     font-size: 16px;
+    list-style: none;
   }
   .onovo-portfolio-item-list .title {
     margin: 0 0 20px 0;
