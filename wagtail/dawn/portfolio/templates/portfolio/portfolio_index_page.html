@@ -27,7 +27,7 @@
 					<div class="onovo-breadcrums">
 						<ul>
 							<li>
-								<a href="index.html">Home </a>
+								<a href="/">Home </a>
 							</li>
 							<li class="current">
 								<span>Projects </span>
@@ -68,53 +68,61 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-								<!-- Projects items -->
-								<div class="row onovo-portfolio-items">
-									{% for project in page.get_projects %}
-									<!--project item-->
-									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 onovo-portfolio-col">
-							
-										<div class="onovo-portfolio-item onovo-portfolio-item-list  {% for tag in project.tags.all %} {{ tag.slug }}{% endfor %}">
-											<div class="image" data-onovo-overlay data-onovo-scroll>
-												<a href="{{ project.url }}" class="onovo-hover-3">
-													{% image project.hero_image fill-600x450 %}
-												</a>
-											</div>
-											<div class="desc">
-												<div class="text">
-													<div data-splitting data-onovo-scroll>
-														{% for tag in project.tags.all %}
-														 	{{ tag.name }}{% if not forloop.last %}, {% endif %}
-                        								{% endfor %}
-													</div>
-												</div>
-												<h5 class="title">
-													<a class="onovo-lnk" href="{{ project.url }}">
-														<span data-splitting data-onovo-scroll>{{ project.title }}</span>
-													</a>
-												</h5>
-												<div class="onovo-text">
-													<div>
-														<ul data-splitting="" data-onovo-scroll="">
-															<li>
-																<strong>Project Type</strong>
-																<br /> {{ project.project_type }}
-															</li>
-															<li>
-																<strong>Team</strong>
-																<br /> {{ project.team }}
-															</li>
-															<li>
-																<strong>Date</strong>
-																<br /> {{ project.date_range }}
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div>
-									{% endfor %}
+							<div class="col-12">
+
+                    <!-- Projects items -->
+                    <div class="row onovo-portfolio-items">
+
+                        {% for project in page.get_projects %}
+                        <div class="col-12 onovo-portfolio-col
+                            {% for tag in project.tags.all %}{{ tag.slug }}{% if not forloop.last %} {% endif %}{% endfor %}">
+                            
+                            <div class="onovo-portfolio-item onovo-portfolio-item-list">
+                                <div class="image" data-onovo-overlay data-onovo-scroll>
+                                    <a href="{{ project.url }}" class="onovo-hover-3">
+                                        {% image project.hero_image fill-600x450 alt=project.title %}
+                                    </a>
+                                </div>
+
+                                <div class="desc">
+                                    <div class="text">
+                                        <div data-splitting data-onovo-scroll>
+                                            {% for tag in project.tags.all %}
+                                                {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <h5 class="title">
+                                        <a class="onovo-lnk" href="{{ project.url }}">
+                                            <span data-splitting data-onovo-scroll>{{ project.title }}</span>
+                                        </a>
+                                    </h5>
+
+                                    <div class="onovo-text">
+                                        <div>
+                                            <ul data-splitting data-onovo-scroll>
+                                                <li>
+                                                    <strong>Project Type</strong><br>
+                                                    {{ project.project_type }}
+                                                </li>
+                                                <li>
+                                                    <strong>Team</strong><br>
+                                                    {{ project.team }}
+                                                </li>
+                                                <li>
+                                                    <strong>Date</strong><br>
+                                                    {{ project.date_range }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
 									</div>
 								</div>
 							</div>
