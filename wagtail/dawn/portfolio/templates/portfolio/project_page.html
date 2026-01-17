@@ -1,0 +1,133 @@
+{% extends "base/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags static %}
+
+{% block body_class %}template-projectpage{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+
+    <!-- Intro -->
+    <section class="onovo-section onovo-intro intro--black">
+        <div class="container">
+            <h1 class="onovo-title-1 onovo-text-white">
+               <span>{{ page.title }}</span> 
+               <span class="onovo-sep word">
+					<i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
+			   </span>
+            </h1>
+            {% if page.subtitle %}
+                <div class="onovo-subtitle-2 onovo-text-white">
+                    {{ page.subtitle|richtext }}
+                </div>
+            {% endif %}
+            <div class="onovo-breadcrums">
+                <ul>
+                    <li>
+                        <a href="{% slugurl 'home' %}">Home</a>
+                    </li>
+
+                    {% for ancestor in page.get_ancestors %}
+                        {% if ancestor.depth > 2 %}
+                            <li>
+                                <a href="{% pageurl ancestor %}">
+                                    {{ ancestor.title }}
+                                </a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    <li class="current">
+                        <span>{{ page.title }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Info -->
+    <section class="onovo-section gap-top-140">
+        <div class="container">
+            <div class="row gap-bottom-80">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+
+                    <!-- Description -->
+                    <div class="onovo-text">
+                        <h3>Description</h3>
+                        {{ page.description|richtext }}
+                        {% if page.project_requirement %}
+                            <div class="onovo-text gap-top-50">
+                                <h6 class="text-uppercase">Project Requirement</h6>
+                                {{ page.project_requirement|richtext }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 offset-lg-1">
+                    <!-- Info panel -->
+                    <div class="onovo-project-info onovo-text-white text-uppercase">
+                        <ul>
+                            {% if page.client %}
+                            <li>
+                                <div><strong>Client:</strong></div>
+                                <div>{{ page.client|richtext }}</div>
+                            </li>
+                            {% endif %}
+                            {% if page.start_date %}
+                            <li>
+                                <div><strong>Start:</strong></div>
+                                <div>{{ page.start_date|richtext }}</div>
+                            </li>
+                            {% endif %}
+                            {% if page.end_date %}
+                            <li>
+                                <div><strong>Ending:</strong></div>
+                                <div>{{ page.end_date|richtext }}</div>
+                            </li>
+                            {% endif %}
+                            {% if page.website %}
+                            <li>
+                                <div><strong>Website:</strong></div>
+                                <div>{{ page.website|richtext }}</div>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <!-- Gallery -->
+                <div class="row gap-row gap-top-40 gallery-items onovo-custom-gallery">
+                    {% if page.gallery %}
+                    <div class="row gallery-items">
+                        {% for block in page.gallery %}
+                            {% if block.value.media_type == 'image' and block.value.image %}
+                            <div class="col-md-6">
+                                <a href="{{ block.value.image.url }}" class="mfp-image">
+                                    {% image block.value.image original as img %}
+                                    <img src="{{ img.url }}" alt="{{ block.value.image.title }}">
+                                </a>
+                            </div>
+                            {% elif block.value.media_type == 'video' and block.value.video_url %}
+                            <div class="col-md-6">
+                                <iframe width="100%" height="250" src="{{ block.value.video_url }}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+            
+
+            <!--Result -->
+            {% if page.project_result %}
+            <div class="onovo-text gap-top-50">
+                <h6 class="text-uppercase">Project Result</h6>
+                {{ page.project_result|richtext }}
+            </div>
+            {% endif %}
+
+        </div>
+    </section>
+
+</div>
+{% endblock %}

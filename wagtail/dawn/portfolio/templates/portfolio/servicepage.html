@@ -1,0 +1,152 @@
+{% extends "base/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+
+<!-- Wrapper -->
+<div class="wrapper">
+
+    <!-- Onovo Intro -->
+    <section class="onovo-section onovo-intro intro--black">
+        <div class="container">
+
+            <h1 class="onovo-title-1 onovo-text-white">
+                <span>{{ page.service_title|default:page.title }}</span>
+                <span class="onovo-sep word">
+                    <i class="sep-img" style="background-image: url({{ STATIC_URL }}assets/images/title_icon.svg);"></i>
+                </span>
+            </h1>
+
+            {% if page.service_subtitle %}
+            <div class="onovo-subtitle-2 onovo-text-white">
+                <span>{{ page.service_subtitle }}</span>
+            </div>
+            {% endif %}
+
+            <!-- Breadcrumbs -->
+            <div class="onovo-breadcrums">
+                <ul>
+                    <li>
+                        <a href="{% slugurl 'home' %}">Home</a>
+                    </li>
+                    <li class="current">
+                        <span>{{ page.get_parent.title }}</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Onovo Service Detail -->
+    <section class="onovo-section gap-top-140">
+        <div class="container">
+            <div class="row">
+
+                <!-- MAIN CONTENT -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+
+                    {% if page.hero_image %}
+                    <div class="gap-bottom-50">
+                        {% image page.hero_image fill-800x400 original %}
+                    </div>
+                    {% endif %}
+
+                    <div class="onovo-text">
+                        {{ page.service_description|richtext }}
+                    </div>
+
+                    <!-- FAQ -->
+                    {% if page.service_FAQ_Section %}
+                    <div class="onovo-faq-items">
+
+                        {% for block in page.service_FAQ_Section %}
+                        <div class="onovo-faq-item onovo-collapse-item">
+                            <h5 class="title onovo-collapse-btn">
+                                <span>{{ block.value.title }}</span>
+                                <i class="arrow"></i>
+                            </h5>
+                            <div class="onovo-text" style="display: none;">
+                                {{ block.value.text|richtext }}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    {% endif %}
+
+                    <!-- Conclusion -->
+                    {% if page.service_conclusion_title %}
+                    <div class="onovo-text gap-top-50">
+                        <h3>{{ page.service_conclusion_title }}</h3>
+                        {{ page.service_conclusion_description|richtext }}
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- SIDEBAR -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+
+                    <!-- Services list -->
+                    <div class="onovo-service-item onovo-service-no-icon gap-bottom-40">
+                        <div class="onovo-service-item-inner onovo-hover-3 onovo-hover-black">
+                            <h5 class="title">
+                                <span>Services List</span>
+                            </h5>
+
+                            <div class="list">
+                                <ul>
+                                    {% for service in page.get_parent.get_children.live %}
+                                    <li>
+                                        <a class="onovo-lnk" href="{% pageurl service %}">
+                                            <span>{{ service.title }}</span>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form Embed -->
+                    {% for block in page.body %}
+                        {% include_block block %}
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="onovo-section">
+        <div class="container">
+            <div class="onovo-page-navigation">
+                <div class="onovo-page-navigation-content">
+
+                    {% if page.get_prev_sibling %}
+                    <a href="{% pageurl page.get_prev_sibling %}" class="page-navigation__prev">
+                        <span class="onovo-prev onovo-hover-2"><i></i></span>
+                    </a>
+                    {% endif %}
+
+                    <a href="{% pageurl page.get_parent %}" class="page-navigation__posts">
+                        <i class="fas fa-th"></i>
+                    </a>
+
+                    {% if page.get_next_sibling %}
+                    <a href="{% pageurl page.get_next_sibling %}" class="page-navigation__next">
+                        <span class="onovo-next onovo-hover-2"><i></i></span>
+                    </a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+{% endblock %}

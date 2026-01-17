@@ -140,23 +140,23 @@
 					<!-- Faq items -->
 					<div class="onovo-faq-items">
 
-						<!--faq item-->
 						{% for block in page.FAQ_Section %}
-						    {% if block.block_type == 'faq' %}
-						<div class="onovo-faq-item onovo-collapse-item">
-							<h5 class="title onovo-collapse-btn">
-								<span>{{ block.value.title }}</span>
-								<i class="arrow"></i>
-							</h5>
-							<div class="onovo-text" style="display: none;">
-								<div>
-									<p>{{ block.value.text }}</p>
+							{% if block.block_type == 'faq' %}
+							<div class="onovo-faq-item onovo-collapse-item">
+								<h5 class="title onovo-collapse-btn">
+									<span>{{ block.value.title }}</span>
+									<i class="arrow"></i>
+								</h5>
+								<div class="onovo-text" style="display: none;">
+									<div>
+										<p>{{ block.value.text }}</p>
+									</div>
 								</div>
 							</div>
-						</div>
-						    {% endif %}
-						{% endfor %}					
-				</div>
+							{% endif %}
+						{% endfor %}
+						</div> 
+					</div>
 			</section>
 		</div>
 {% endblock %}
