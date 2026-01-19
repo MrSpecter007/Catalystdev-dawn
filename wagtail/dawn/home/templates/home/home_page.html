@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
-{% load wagtailcore_tags %}
-{% load static %}
+{% load static wagtailcore_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
 
@@ -63,15 +64,15 @@
 									<div class="onovo-text">
 										<p>{{ page.about_Description }}</p>
 									</div>
+									<div class="onovo-bts">
+										<a class="onovo-btn btn--border onovo-hover-btn" href="/about-us/">
+											<i class="arrow">
+												<span></span>
+											</i>
+											<span> Learn More </span>
+										</a>
+									</div>
 								</div>
-							</div>
-							<div class="onovo-bts col-xs-12 col-sm-12 col-md-12 col-lg-6 offset-lg-3 align-center">
-								<a class="onovo-btn btn--border onovo-hover-btn align-center" href="{{ page.about_ButtonLink }}">
-									<i class="arrow">
-										<span></span>
-									</i>
-									<span> {{ page.about_ButtonText }} </span>
-								</a>
 							</div>
 						</div>
 						</section>
@@ -292,6 +293,54 @@
 									</i>
 									<span> {{ page.portfolio_three_ButtonText }} </span>
 								</a>
+							</div>
+						</div>
+					</div>
+					<!--slide-->
+					<div class="onovo-hero-parallax-section gap-top-140 gap-bottom-140">
+						<div class="container">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+									<!-- Heading -->
+									<div class="onovo-heading gap-bottom-40 onovo-text-white">
+										<div class="onovo-subtitle-1">
+											<span> Get in Touch </span>
+										</div>
+										<h2 class="onovo-title-2">
+											<span> Send Us Your <br>
+												<strong>Bright Ideas</strong>
+											</span>
+										</h2>
+									</div>
+
+									<!-- Text -->
+									<div class="onovo-cta-text">
+										<a href="mailto:info@catalysdv.com" target="_blank">info@catalysdv.com</a>
+										<p>Montreal, QC, Canada. </p>
+									</div>
+									<div class="onovo-bts">
+										<a class="onovo-btn btn--border onovo-hover-btn btn--color btn--white align-left" href="/contact/">
+											<i class="arrow">
+												<span></span>
+											</i>
+											<span> Contact Us </span>
+										</a>
+									</div>
+								</div>
+
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+
+									<!-- Social -->
+									<div class="onovo-cta-social">
+										<div class="image">
+											<img src="{% static 'assets/images/cta-circle2.png' %}" alt="debug">
+											<div class="cta-img-circle img-circle--1"></div>
+											<div class="cta-img-circle img-circle--2"></div>
+											<div class="cta-img-circle img-circle--3"></div>
+										</div>
+									</div>
+
+								</div>
 							</div>
 						</div>
 					</div>

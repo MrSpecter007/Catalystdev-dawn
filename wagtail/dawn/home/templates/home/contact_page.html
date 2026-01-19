@@ -48,7 +48,12 @@
 
 							<!-- Form -->
 							<div class="onovo-form">
-								<form id="cform" class="cform" method="post">
+								<form 
+									id="cform" 
+									class="cform" 
+									method="post" 
+									action="{% pageurl page %}">
+    								{% csrf_token %}
 									<div class="row">
 										<div class="">
 											<p>
@@ -79,7 +84,11 @@
 										</div>
 									</div>
 								</form>
-								<div class="alert-success" style="display: none;"><h5>Thanks, your message is sent successfully.</h5></div>
+								{% if success %}
+									<div class="alert-success">
+										<h5>Thanks, your message is sent successfully.</h5>
+									</div>
+								{% endif %}
 							</div>
 
 						</div>

@@ -65,6 +65,28 @@ class ContactPage(Page):
         blank=True,
     )
     
-
+    
     content_panels = Page.content_panels + ["contact_Title", "contact_Subtitle", "form_Title", "form_Subtitle", "FAQ_Section"]
     
+    class LegalPage(Page):
+        Legal_sub_title = models.CharField(blank=True, max_length=100)
+        legal_text = RichTextField(blank=True)
+        
+
+        content_panels = Page.content_panels + [
+            FieldPanel("Legal_sub_title"),
+            FieldPanel("legal_text"),
+        ]
+    class Meta:
+        verbose_name = "Legal Page"
+    
+    class AboutPage(Page):
+        about_sub_title = models.CharField(blank=True, max_length=100)
+        about_text = RichTextField(blank=True)
+
+        content_panels = Page.content_panels + [
+            FieldPanel("about_sub_title"),
+            FieldPanel("about_text"),
+        ]
+    class Meta:
+        verbose_name = "About Page"

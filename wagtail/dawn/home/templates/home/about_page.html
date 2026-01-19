@@ -1,0 +1,48 @@
+{% extends "base/base.html" %}
+{% load wagtailcore_tags %}
+{% load static %}
+
+{% block content %}
+
+		<!-- Wrapper -->
+		<div class="wrapper">
+
+			<!-- Onovo Intro -->
+			<section class="onovo-section onovo-intro intro--black">
+				<div class="container">
+					<h1 class="onovo-title-1  onovo-text-white">
+						<span> {{ page.title }}</span>
+						<span class="onovo-sep word">
+							<i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
+						</span>
+					</h1>
+					<div class="onovo-subtitle-2  onovo-text-white">
+						<span> {{ page.about_sub_title }} </span>
+					</div>
+					<div class="onovo-breadcrums">
+						<ul>
+							<li>
+								<a href="/">Home </a>
+							</li>
+							<li class="current">
+								<span>{{ page.title }}</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section class="onovo-section gap-top-140">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<!-- Heading -->
+							<div class="onovo-text gap-bottom-40">
+								<p>{{ page.about_text|richtext }}</p>	
+							</div>	
+						</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+{% endblock %}

@@ -23,7 +23,10 @@
 <main>
     {% block content %}{% endblock %}
 </main>
-{% include "base/scripts.html" %}
+	{% if page and page.depth > 2 %}
+		{% include "base/footer.html" %}
+	{% endif %}
+	{% include "base/scripts.html" %}
 </div>
 </body>
 </html>
