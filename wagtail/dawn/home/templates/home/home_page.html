@@ -1,5 +1,5 @@
 {% extends "base/base.html" %}
-{% load static wagtailcore_tags %}
+{% load static wagtailimages_tags wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
 
@@ -65,13 +65,14 @@
 										<p>{{ page.about_Description }}</p>
 									</div>
 									<div class="onovo-bts">
-										<a class="onovo-btn btn--border onovo-hover-btn" href="/about-us/">
+										<a class="onovo-btn btn--border onovo-hover-btn" href="{{ page.about_ButtonLink }}" >
 											<i class="arrow">
 												<span></span>
 											</i>
-											<span> Learn More </span>
+											<span> {{ page.about_ButtonText }} </span>
 										</a>
 									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -81,150 +82,59 @@
 					<div class="onovo-hero-parallax-section section--dark">
 						<section class="onovo-section gap-top-130 gap-bottom-140 onovo-section-bg onovo-section-full">
 						<div class="container">
-							<!-- Heading -->
+							 <!-- Heading -->
 							<div class="onovo-heading gap-bottom-40 align-center">
 								<h2 class="onovo-title-2">
-									<span>Our Services</span>
+									<span>{{ page.services_title }}</span>
 								</h2>
 							</div>
-							<!-- Services items -->
+
+							<!-- Services -->
 							<div class="row gap-row">
 
-								<!--service item-->
-								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-									<div class="onovo-service-item">
-										<div class="image">
-											<a href="service-detail.html">
-												<img src="{% static 'assets/images/cd-creative-mind.png' %}" alt="Brand Creation" />
-											</a>
-										</div>
-										<div class="onovo-service-item-inner onovo-hover-3 onovo-hover-black">
-											<h5 class="title">
-												<a href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Branding </span>
-												</a>
-											</h5>
-											<div class="list">
-												<ul>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Strategy </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Visual Identity System </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Naming </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Guidelines </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Audit and Refresh </span>
-														</a>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
+								{% for block in page.services_list %}
+									{% if block.block_type == "service" %}
+										{% with s=block.value %}
+										<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+											<div class="onovo-service-item">
 
-								<!--service item-->
-								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-									<div class="onovo-service-item">
-										<div class="image">
-											<a href="service-detail.html">
-												<img src="{% static 'assets/images/cd-wwb.png' %}" alt="Web Campaigns" />
-											</a>
-										</div>
-										<div class="onovo-service-item-inner onovo-hover-3 onovo-hover-black">
-											<h5 class="title">
-												<a href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Web Development </span>
-												</a>
-											</h5>
-											<div class="list">
-												<ul>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Standard WordPress </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Standard E-commerce </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Custom E-commerce </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> ERP/Portal </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Accountant Portal </span>
-														</a>
-													</li>
-												</ul>
-											</div>
-										</div>
-									</div>
-								</div>
+												<div class="image">
+													<a href="{{ s.link.url }}">
+														{% image s.image fill-600x600 %}
+													</a>
+												</div>
 
-								<!--service item-->
-								<div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-									<div class="onovo-service-item">
-										<div class="image">
-											<a href="service-detail.html">
-												<img src="{% static 'assets/images/cd-target.png' %}" alt="Digital Strategy" />
-											</a>
-										</div>
-										<div class="onovo-service-item-inner onovo-hover-3 onovo-hover-black">
-											<h5 class="title">
-												<a href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Digital Strategy </span>
-												</a>
-											</h5>
-											<div class="list">
-												<ul>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Paid Ads </span>
+												<div class="onovo-service-item-inner onovo-hover-3 onovo-hover-black">
+													<h5 class="title">
+														<a href="{{ s.link.url }}">
+															<span data-splitting data-onovo-scroll>
+																{{ s.title }}
+															</span>
 														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> SEO & Analytics </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Social Media </span>
-														</a>
-													</li>
-													<li>
-														<a class="onovo-lnk" href="service-detail.html">
-															<span data-splitting data-onovo-scroll> Business Launch </span>
-														</a>
-													</li>
-												</ul>
+													</h5>
+
+													<div class="list">
+														<ul>
+															{% for item in s.items %}
+																<li>
+																	<a class="onovo-lnk"
+																	href="{% if item.link %}{{ item.link.url }}{% else %}{{ s.link.url }}{% endif %}">
+																		<span data-splitting data-onovo-scroll>
+																			{{ item.text }}
+																		</span>
+																	</a>
+																</li>
+															{% endfor %}
+														</ul>
+													</div>
+
+												</div>
 											</div>
 										</div>
-									</div>
-								</div>
+										{% endwith %}
+									{% endif %}
+								{% endfor %}
+
 							</div>
 						</div>
 						</section>

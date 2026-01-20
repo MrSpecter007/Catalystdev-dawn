@@ -6,6 +6,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from django.conf.urls.i18n import i18n_patterns
+
 from search import views as search_views
 
 urlpatterns = [
@@ -33,3 +35,5 @@ urlpatterns = urlpatterns + [
     # of your site, rather than the site root:
     #    path("pages/", include(wagtail_urls)),
 ]
+
+
