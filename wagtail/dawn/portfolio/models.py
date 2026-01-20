@@ -96,6 +96,7 @@ class ProjectPage(Page):
     client = RichTextField(blank=True)
     start_date = RichTextField(blank=True)
     end_date = RichTextField(blank=True)
+    single_date = RichTextField(blank=True)
     website = RichTextField(blank=True)
     
     tags = ClusterTaggableManager(
@@ -125,6 +126,7 @@ class ProjectPage(Page):
                 FieldPanel("client"),
                 FieldPanel("start_date"),
                 FieldPanel("end_date"),
+                FieldPanel("single_date"),
                 FieldPanel("website"),
             ],
             heading="Project Info",

@@ -13,13 +13,13 @@
 			<section class="onovo-section onovo-intro intro--black">
 				<div class="container">
 					<h1 class="onovo-title-1  onovo-text-white">
-						<span> Our Services </span>
+						<span> {{ page.title }} </span>
 						<span class="onovo-sep word">
 							<i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
 						</span>
 					</h1>
 					<div class="onovo-subtitle-2  onovo-text-white">
-						<span> Our values and vaulted us to the top of our industry. </span>
+						<span> {{ page.intro | richtext}} </span>
 					</div>
 					<div class="onovo-breadcrums">
 						<ul>
@@ -52,19 +52,19 @@
 								<div class="onovo-service-item-inner onovo-hover-3 onovo-hover-black">
 									<h5 class="title">
 										<a href="service-detail.html">
-											<span data-splitting data-onovo-scroll> Brand Creation </span>
+											<span data-splitting data-onovo-scroll> Branding </span>
 										</a>
 									</h5>
 									<div class="list">
 										<ul>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Brand Strategy </span>
+													<span data-splitting data-onovo-scroll> Strategy </span>
 												</a>
 											</li>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Visual Identity </span>
+													<span data-splitting data-onovo-scroll> Visual Identity System </span>
 												</a>
 											</li>
 											<li>
@@ -75,6 +75,11 @@
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
 													<span data-splitting data-onovo-scroll> Guidelines </span>
+												</a>
+											</li>
+												<li>
+												<a class="onovo-lnk" href="service-detail.html">
+													<span data-splitting data-onovo-scroll> Audit and Refresh </span>
 												</a>
 											</li>
 										</ul>
@@ -101,22 +106,27 @@
 										<ul>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> ERPs/Portals </span>
+													<span data-splitting data-onovo-scroll> Standard WordPress </span>
 												</a>
 											</li>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> E-commerce </span>
+													<span data-splitting data-onovo-scroll> Standard E-commerce </span>
 												</a>
 											</li>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> WordPress </span>
+													<span data-splitting data-onovo-scroll> Custom E-commerce </span>
 												</a>
 											</li>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Catalyst Tax </span>
+													<span data-splitting data-onovo-scroll> ERP/Portal </span>
+												</a>
+											</li>
+											<li>
+												<a class="onovo-lnk" href="service-detail.html">
+													<span data-splitting data-onovo-scroll> Accountant Portal </span>
 												</a>
 											</li>
 										</ul>
@@ -153,7 +163,7 @@
 											</li>
 											<li>
 												<a class="onovo-lnk" href="service-detail.html">
-													<span data-splitting data-onovo-scroll> Social Media Strategy </span>
+													<span data-splitting data-onovo-scroll> Social Media </span>
 												</a>
 											</li>
 											<li>
@@ -219,12 +229,12 @@
 								</div>
 								<h5 class="title">
 									<a href="service-detail.html">
-										<span> Brand Strategy </span>
+										<span> Discovery & Audit </span>
 									</a>
 								</h5>
 								<div class="onovo-text">
 									<div>
-										<p>Lorem ipm dolor amet, consectetur adipiing lit Sunt sed ad possimus ils magnam maores.</p>
+										<p> We start by understanding your business, audience, and goals. Whether it’s a brand refresh, a new portal, or a digital campaign, we analyze what exists, identify opportunities, and define the problem we’re solving.</p>
 									</div>
 								</div>
 							</div>
@@ -243,12 +253,12 @@
 								</div>
 								<h5 class="title">
 									<a href="service-detail.html">
-										<span> Visual Identity </span>
+										<span> Strategy & Planning </span>
 									</a>
 								</h5>
 								<div class="onovo-text">
 									<div>
-										<p>Lorem ipm dolor amet, consectetur adipiing lit Sunt sed ad possimus ils magnam maores.</p>
+										<p> Next, we outline a clear roadmap. For brands, this means positioning, naming, and identity strategy. For digital platforms, we define technical architecture and features. For marketing, it’s campaigns and go-to-market plans. Every decision is intentional and aligned with your goals.</p>
 									</div>
 								</div>
 							</div>
@@ -267,12 +277,12 @@
 								</div>
 								<h5 class="title">
 									<a href="service-detail.html">
-										<span> Copywriting </span>
+										<span> Design & Concepting </span>
 									</a>
 								</h5>
 								<div class="onovo-text">
 									<div>
-										<p>Lorem ipm dolor amet, consectetur adipiing lit Sunt sed ad possimus ils magnam maores.</p>
+										<p> We bring ideas to life visually and creatively. From logos and visual identity systems to UI/UX for portals and e-commerce platforms, we design experiences that are intuitive, memorable, and true to your brand.</p>
 									</div>
 								</div>
 							</div>
@@ -291,12 +301,12 @@
 								</div>
 								<h5 class="title">
 									<a href="service-detail.html">
-										<span> Creative Strategy </span>
+										<span> Development & Build </span>
 									</a>
 								</h5>
 								<div class="onovo-text">
 									<div>
-										<p>Lorem ipm dolor amet, consectetur adipiing lit Sunt sed ad possimus ils magnam maores.</p>
+										<p> Our team builds the product, whether it’s a WordPress site, custom Laravel portal, ERP system, or e-commerce platform. We focus on performance, reliability, and scalability, so your digital tools work seamlessly for you and your audience.</p>
 									</div>
 								</div>
 							</div>
@@ -315,12 +325,58 @@
 								</div>
 								<h5 class="title">
 									<a href="service-detail.html">
-										<span> Native &amp; Web Apps </span>
+										<span> Testing & Optimization </span>
 									</a>
 								</h5>
 								<div class="onovo-text">
 									<div>
-										<p>Lorem ipm dolor amet, consectetur adipiing lit Sunt sed ad possimus ils magnam maores.</p>
+										<p>We rigorously test every project—functionality, user experience, and design fidelity. For marketing campaigns, we measure, iterate, and optimize. Our goal is clarity, usability, and measurable results.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--service-item-->
+						<div class="onovo-service-item-list">
+							<div class="onovo-service-item-list-inner">
+								<div class="image onovo-hover-1">
+									<a href="service-detail.html">
+										<img src="{% static 'assets/images/cd-repair.png' %}" alt="Native &amp; Web Apps" />
+									</a>
+								</div>
+								<div class="num">
+									<span> 06. </span>
+								</div>
+								<h5 class="title">
+									<a href="service-detail.html">
+										<span> Launch & Support </span>
+									</a>
+								</h5>
+								<div class="onovo-text">
+									<div>
+										<p>Once everything is ready, we launch confidently. We continue to support your brand, platform, or campaigns, making sure your systems grow with your business and adapt to new opportunities.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--service-item-->
+						<div class="onovo-service-item-list">
+							<div class="onovo-service-item-list-inner">
+								<div class="image onovo-hover-1">
+									<a href="service-detail.html">
+										<img src="{% static 'assets/images/cd-repair.png' %}" alt="Native &amp; Web Apps" />
+									</a>
+								</div>
+								<div class="num">
+									<span> 07. </span>
+								</div>
+								<h5 class="title">
+									<a href="service-detail.html">
+										<span> Continuous Growth </span>
+									</a>
+								</h5>
+								<div class="onovo-text">
+									<div>
+										<p> We don’t just hand off projects. We help brands evolve, update digital products, and refine strategies—keeping your business ahead of the curve while maintaining the artistic and technical quality we build into every project.</p>
 									</div>
 								</div>
 							</div>
@@ -435,7 +491,7 @@
 			</section>
 
 			<!-- Onovo CTA -->
-			<section class="onovo-section onovo-hero-parallax gap-top-140 gap-bottom-140">
+			<section class="onovo-section onovo-hero gap-bottom-140">
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
@@ -457,7 +513,14 @@
 								<a href="mailto:info@catalysdv.com" target="_blank">info@catalysdv.com</a>
 								<p>Montreal, QC, Canada. </p>
 							</div>
-
+							<div class="onovo-bts">
+								<a class="onovo-btn btn--border onovo-hover-btn btn--white align-left" href="/contact/">
+									<i class="arrow">
+										<span></span>
+									</i>
+									<span> Contact Us </span>
+								</a>
+							</div>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 

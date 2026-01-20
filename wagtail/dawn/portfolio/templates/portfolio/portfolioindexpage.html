@@ -102,16 +102,12 @@
                                         <div>
                                             <ul data-splitting data-onovo-scroll>
                                                 <li>
-                                                    <strong>Project Type</strong><br>
-                                                    {{ project.project_type }}
-                                                </li>
-                                                <li>
-                                                    <strong>Team</strong><br>
-                                                    {{ project.team }}
+                                                    <strong>Project Summary</strong><br>
+													{{ project.subtitle | richtext }} 
                                                 </li>
                                                 <li>
                                                     <strong>Date</strong><br>
-                                                    {{ project.date_range }}
+                                                    {{ project.single_date | richtext }}
                                                 </li>
                                             </ul>
                                         </div>

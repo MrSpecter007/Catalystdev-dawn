@@ -53,7 +53,7 @@ class ContactPage(Page):
     contact_Title = models.CharField(blank=True,max_length=50)
     contact_Subtitle = models.CharField(blank=True)
     form_Title = models.CharField(blank=True,max_length=50)
-    form_Subtitle = models.CharField(blank=True)
+    form_Subtitle = RichTextField(blank=True)
     FAQ_Section = StreamField(
         [
             ("faq", blocks.StructBlock([
@@ -68,25 +68,25 @@ class ContactPage(Page):
     
     content_panels = Page.content_panels + ["contact_Title", "contact_Subtitle", "form_Title", "form_Subtitle", "FAQ_Section"]
     
-    class LegalPage(Page):
-        Legal_sub_title = models.CharField(blank=True, max_length=100)
-        legal_text = RichTextField(blank=True)
+class LegalPage(Page):
+    Legal_sub_title = models.CharField(blank=True, max_length=100)
+    legal_text = RichTextField(blank=True)
         
 
-        content_panels = Page.content_panels + [
-            FieldPanel("Legal_sub_title"),
-            FieldPanel("legal_text"),
-        ]
+    content_panels = Page.content_panels + [
+        FieldPanel("Legal_sub_title"),
+         FieldPanel("legal_text"),
+    ]
     class Meta:
         verbose_name = "Legal Page"
     
-    class AboutPage(Page):
-        about_sub_title = models.CharField(blank=True, max_length=100)
-        about_text = RichTextField(blank=True)
+class AboutPage(Page):
+    about_sub_title = models.CharField(blank=True, max_length=100)
+    about_text = RichTextField(blank=True)
 
-        content_panels = Page.content_panels + [
-            FieldPanel("about_sub_title"),
-            FieldPanel("about_text"),
-        ]
+    content_panels = Page.content_panels + [
+        FieldPanel("about_sub_title"),
+        FieldPanel("about_text"),
+    ]
     class Meta:
         verbose_name = "About Page"
