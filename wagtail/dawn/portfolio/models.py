@@ -3,6 +3,7 @@ from modelcluster.fields import ParentalKey
 from modelcluster.contrib.taggit import ClusterTaggableManager
 from taggit.models import TaggedItemBase, Tag
 
+
 from wagtail import blocks
 from wagtail.models import Page, Orderable
 from wagtail.fields import RichTextField, StreamField
@@ -45,6 +46,23 @@ class GalleryItemBlock(StructBlock):
     class Meta:
         icon = "image"
         label = "Gallery Item"
+        
+class ReviewBlock(blocks.StructBlock):
+    quote = blocks.TextBlock(required=True, help_text="The review text")
+    name = blocks.CharBlock(required=True, max_length=50, help_text="Reviewer name")
+    role = blocks.CharBlock(required=False, max_length=50, help_text="Reviewer role or position")
+    stars = blocks.IntegerBlock(default=5, min_value=1, max_value=5, help_text="Number of stars (1-5)")
+    background = ImageChooserBlock(required=False, help_text="Optional background image for this review")
+    
+    def get_star_lists(self, value):
+        """Return filled and empty stars for template"""
+        filled = range(value['stars'])
+        empty = range(5 - value['stars'])
+        return filled, empty
+
+    class Meta:
+        icon = "user"
+        label = "Review"
 
 
 # ---------------------------
@@ -81,6 +99,8 @@ class PortfolioIndexPage(Page):
 
 
 class ProjectPage(Page):
+    
+    reviews = StreamField([("review", ReviewBlock())], blank=True, use_json_field=True)
     hero_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -94,8 +114,9 @@ class ProjectPage(Page):
     project_result = RichTextField(blank=True)
 
     client = RichTextField(blank=True)
-    start_date = RichTextField(blank=True)
-    end_date = RichTextField(blank=True)
+    industry = RichTextField(blank=True)
+    services = RichTextField(blank=True)
+    platforms = RichTextField(blank=True)
     single_date = RichTextField(blank=True)
     website = RichTextField(blank=True)
     
@@ -121,11 +142,13 @@ class ProjectPage(Page):
         FieldPanel("description"),
         FieldPanel("project_requirement"),
         FieldPanel("project_result"),
+        FieldPanel("reviews"),
         MultiFieldPanel(
             [
                 FieldPanel("client"),
-                FieldPanel("start_date"),
-                FieldPanel("end_date"),
+                FieldPanel("industry"),
+                FieldPanel("services"),
+                FieldPanel("platforms"),
                 FieldPanel("single_date"),
                 FieldPanel("website"),
             ],

@@ -1,3 +1,4 @@
+from wagtail.images.models import Image
 from django.db import models
 
 from wagtail import blocks
@@ -6,6 +7,17 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.embeds.models import Embed  
 from wagtail.admin.panels import FieldPanel, InlinePanel, MultiFieldPanel
 from shared.blocks import ServiceItemBlock
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
+
+# Form fields
+class ContactFormField(AbstractFormField):
+    page = ParentalKey(
+        'ContactPage',
+        on_delete=models.CASCADE,
+        related_name='form_fields',
+    )
 
 
 class HomePage(Page):
@@ -96,25 +108,38 @@ class HomePage(Page):
         ], heading="Portfolio Three Section"),
     ]
     
-class ContactPage(Page):
-    contact_Title = models.CharField(blank=True,max_length=50)
-    contact_Subtitle = models.CharField(blank=True)
-    form_Title = models.CharField(blank=True,max_length=50)
+# FAQ block for StreamField
+class FAQBlock(blocks.StructBlock):
+    title = blocks.CharBlock()
+    text = blocks.RichTextBlock()
+
+# Main contact page
+class ContactPage(AbstractEmailForm):
+    contact_Title = models.CharField(max_length=50, blank=True)
+    contact_Subtitle = models.CharField(max_length=150, blank=True)
+    form_Title = models.CharField(max_length=50, blank=True)
     form_Subtitle = RichTextField(blank=True)
+    
     FAQ_Section = StreamField(
         [
-            ("faq", blocks.StructBlock([
-                ("title", blocks.CharBlock()),
-                ("text", blocks.RichTextBlock()),
-            ])),
+            ("faq", FAQBlock()),
         ],
         use_json_field=True,
-        blank=True,
+        blank=True
     )
-    
-    
-    content_panels = Page.content_panels + ["contact_Title", "contact_Subtitle", "form_Title", "form_Subtitle", "FAQ_Section"]
-    
+
+    content_panels = Page.content_panels + [
+        FieldPanel('contact_Title'),
+        FieldPanel('contact_Subtitle'),
+        FieldPanel('form_Title'),
+        FieldPanel('form_Subtitle'),
+        InlinePanel('form_fields', label="Form Fields"),
+        FieldPanel('FAQ_Section'),
+    ]    
+    # include the default panels from AbstractEmailForm for email & thank-you
+    promote_panels = AbstractEmailForm.promote_panels
+    settings_panels = AbstractEmailForm.settings_panels
+
 class LegalPage(Page):
     Legal_sub_title = models.CharField(blank=True, max_length=100)
     legal_text = RichTextField(blank=True)

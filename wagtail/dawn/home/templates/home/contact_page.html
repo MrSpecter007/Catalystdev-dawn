@@ -6,163 +6,156 @@
 
 {% block content %}
 
-		<!-- Wrapper -->
-		<div class="wrapper">
+<div class="wrapper">
 
-			<!-- Onovo Intro -->
-			<section class="onovo-section onovo-intro intro--black">
-				<div class="container">
-					<h1 class="onovo-title-1  onovo-text-white">
-						<span> {{ page.contact_Title }}</span>
-						<span class="onovo-sep word">
-							<i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
-						</span>
-					</h1>
-					<div class="onovo-subtitle-2  onovo-text-white">
-						<span> {{ page.contact_Subtitle }} </span>
-					</div>
-					<div class="onovo-breadcrums">
-						<ul>
-							<li>
-								<a href="/">Home </a>
-							</li>
-							<li class="current">
-								<span>Contact Us</span>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</section>
+    <!-- Onovo Intro -->
+    <section class="onovo-section onovo-intro intro--black">
+        <div class="container">
+            {% if page.contact_Title %}
+                <h1 class="onovo-title-1 onovo-text-white">
+                    <span>{{ page.contact_Title }}</span>
+                    <span class="onovo-sep word">
+                        <i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
+                    </span>
+                </h1>
+            {% endif %}
 
-			<!-- Onovo Contact Info -->
-			<section class="onovo-section gap-top-140">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+            {% if page.contact_Subtitle %}
+                <div class="onovo-subtitle-2 onovo-text-white">
+                    <span>{{ page.contact_Subtitle }}</span>
+                </div>
+            {% endif %}
 
-							<!-- Heading -->
-							<div class="onovo-text gap-bottom-40">
-								<h4>{{ page.form_Title }}</h4>
-								<p>{{ page.form_Subtitle | richtext }}</p>
-								
-							</div>
-							
-							<!-- Form -->
-							<div class="onovo-form">
-								<form 
-									id="cform" 
-									class="cform" 
-									method="post" 
-									action="{% pageurl page %}">
-    								{% csrf_token %}
-									<div class="row">
-										<div class="">
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-10">
-											<p>
-												<input placeholder="Full Name" type="text" name="name" />
-											</p>
-											<p>
-												<input placeholder="Email Address" type="email" name="email" />
-											</p>
-												<p>
-												<input placeholder="Phone Number" type="tel" name="tel" />
-											</p>
-												<p>
-												<textarea placeholder="Message" name="message"></textarea>
-											</p>
-										</div>
-										<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
-											<p>
-												<button type="submit" class="onovo-btn onovo-hover-btn">
-													<span>Send Message</span>
-												</button>
-											</p>
-										</div>
-									</div>
-								</form>
-								{% if success %}
-									<div class="alert-success">
-										<h5>Thanks, your message is sent successfully.</h5>
-									</div>
-								{% endif %}
-							</div>
+            <div class="onovo-breadcrums">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li class="current"><span>Contact Us</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+    <!-- Contact Form Section -->
+    <section class="onovo-section gap-top-140">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
 
-							<!-- Contact Info -->
-							<div class="onovo-contact-info onovo-text-white">
-								<ul>
-									<li>
-										<h5>Contact Info</h5>
-										<a href="mailto:info@catalystdv.com" class="onovo-lnk lnk--white" target="_blank">info@catalystdv.com</a>
-										<div class="onovo-social-1 onovo-social-active" style="margin-top: 10px;">
-											<ul>
-												<li>
-													<a href="#" class="onovo-social-link onovo-hover-2">
-														<i class="icon fab fa-facebook"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" class="onovo-social-link onovo-hover-2">
-														<i class="icon fab fa-instagram"></i>
-													</a>
-												</li>
-												<li>
-													<a href="#" class="onovo-social-link onovo-hover-2">
-														<i class="icon fab fa-linkedin"></i>
-													</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<li>
-										<h5>Montreal</h5>
-										<div>4388 R. Saint-Denis #182</div>
-									</li>
-								</ul>
-							</div>
+                    <!-- Heading -->
+                    {% if page.form_Title %}
+                        <h4>{{ page.form_Title }}</h4>
+                    {% endif %}
+                    {% if page.form_Subtitle %}
+                        <p>{{ page.form_Subtitle|richtext }}</p>
+                    {% endif %}
 
-						</div>
-					</div>
-				</div>
-			</section>
+                    <!-- Contact Form -->
+                    <div class="onovo-form">
+                        {% if form_submitted %}
+                            <div class="alert-success">
+                                <h5>{{ page.thank_you_text|richtext }}</h5>
+                            </div>
+                        {% else %}
+                            <form method="POST" class="cform" action="{% pageurl page %}">
+                                {% csrf_token %}
+                                <div class="row">
+                                    {% for field in form %}
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            <p>
+                                                {% comment %}
+                                                Render textarea for multiline fields, input for others.
+                                                Compatible with all Wagtail versions.
+                                                {% endcomment %}
+                                                {% if field.field_type == "multiline" %}
+                                                    <textarea name="{{ field.html_name }}"
+															id="{{ field.id_for_label }}"
+															class="onovo-input">
+													{% if field.value %}{{ field.value|escape }}{% endif %}
+													</textarea>
+                                                {% else %}
+                                                    <input
+                                                        type="text"
+                                                        name="{{ field.html_name }}"
+                                                        id="{{ field.id_for_label }}"
+                                                        value="{{ field.value|default_if_none:''|escape }}"
+                                                        placeholder="{{ field.help_text|default_if_none:field.label }}"
+                                                        class="onovo-input">
+                                                {% endif %}
 
-			<!-- Onovo Faq -->
-			<section class="onovo-section gap-top-80 gap-bottom-140">
-				<div class="container">
+                                                {% if field.errors %}
+                                                    <div class="field-error">{{ field.errors|striptags }}</div>
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    {% endfor %}
 
-					<!-- Heading -->
-					<div class="onovo-heading align-center gap-bottom-40">
-						<div class="onovo-subtitle-1">
-							<span> Client’s FAQ </span>
-						</div>
-						<h2 class="onovo-title-2">
-							<span> Solving Business Problems <br>is An Everyday </span>
-						</h2>
-					</div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p>
+                                            <button type="submit" class="onovo-btn onovo-hover-btn">
+                                                <span>Send Message</span>
+                                            </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
+                        {% endif %}
+                    </div>
 
-					<!-- Faq items -->
-					<div class="onovo-faq-items">
+                </div>
 
-						{% for block in page.FAQ_Section %}
-							{% if block.block_type == 'faq' %}
-							<div class="onovo-faq-item onovo-collapse-item">
-								<h5 class="title onovo-collapse-btn">
-									<span>{{ block.value.title }}</span>
-									<i class="arrow"></i>
-								</h5>
-								<div class="onovo-text" style="display: none;">
-									<div>
-										<p>{{ block.value.text }}</p>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-						{% endfor %}
-						</div> 
-					</div>
-			</section>
-		</div>
+                <!-- Contact Info -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+                    <div class="onovo-contact-info onovo-text-white">
+                        <ul>
+                            <li>
+                                <h5>Contact Info</h5>
+                                <a href="mailto:info@catalystdv.com" class="onovo-lnk lnk--white" target="_blank">info@catalystdv.com</a>
+                                <div class="onovo-social-1 onovo-social-active" style="margin-top: 10px;">
+                                    <ul>
+                                        <li><a href="#" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-facebook"></i></a></li>
+                                        <li><a href="#" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-instagram"></i></a></li>
+                                        <li><a href="#" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-linkedin"></i></a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <h5>Montreal</h5>
+                                <div>4388 R. Saint-Denis #182</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    {% if page.FAQ_Section %}
+    <section class="onovo-section gap-top-80 gap-bottom-140">
+        <div class="container">
+            <div class="onovo-heading align-center gap-bottom-40">
+                <div class="onovo-subtitle-1"><span>Client’s FAQ</span></div>
+                <h2 class="onovo-title-2"><span>Solving Business Problems <br>is An Everyday</span></h2>
+            </div>
+
+            <div class="onovo-faq-items">
+                {% for block in page.FAQ_Section %}
+                    {% if block.block_type == 'faq' %}
+                        <div class="onovo-faq-item onovo-collapse-item">
+                            <h5 class="title onovo-collapse-btn">
+                                <span>{{ block.value.title }}</span>
+                                <i class="arrow"></i>
+                            </h5>
+                            <div class="onovo-text" style="display: none;">
+                                <div><p>{{ block.value.text|richtext }}</p></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+</div>
 {% endblock %}

@@ -73,16 +73,22 @@
                                 <div>{{ page.client|richtext }}</div>
                             </li>
                             {% endif %}
-                            {% if page.start_date %}
+                            {% if page.industry %}
                             <li>
-                                <div><strong>Start:</strong></div>
-                                <div>{{ page.start_date|richtext }}</div>
+                                <div><strong>Industry</strong></div>
+                                <div>{{ page.industry|richtext }}</div>
                             </li>
                             {% endif %}
-                            {% if page.end_date %}
+                            {% if page.services %}
                             <li>
-                                <div><strong>Ending:</strong></div>
-                                <div>{{ page.end_date|richtext }}</div>
+                                <div><strong>Services:</strong></div>
+                                <div>{{ page.services|richtext }}</div>
+                            </li>
+                            {% endif %}
+                            {% if page.platforms %}
+                            <li>
+                                <div><strong>Platforms:</strong></div>
+                                <div>{{ page.platforms|richtext }}</div>
                             </li>
                             {% endif %}
                             {% if page.website %}
@@ -97,24 +103,25 @@
                 <!-- Gallery -->
                 <div class="row gap-row gap-top-40 gallery-items onovo-custom-gallery">
                     {% if page.gallery %}
-                    <div class="row gallery-items">
-                        {% for block in page.gallery %}
-                            {% if block.value.media_type == 'image' and block.value.image %}
-                            <div class="col-md-6">
-                                <a href="{{ block.value.image.url }}" class="mfp-image">
+                        <div class="row gallery-items">
+                            {% for block in page.gallery %}
+                                {% if block.value.media_type == 'image' and block.value.image %}
                                     {% image block.value.image original as img %}
-                                    <img src="{{ img.url }}" alt="{{ block.value.image.title }}">
-                                </a>
-                            </div>
-                            {% elif block.value.media_type == 'video' and block.value.video_url %}
-                            <div class="col-md-6">
-                                <iframe width="100%" height="250" src="{{ block.value.video_url }}" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ img.url }}" class="mfp-image">
+                                            <img src="{{ img.url }}" alt="{{ block.value.image.title }}">
+                                        </a>
+                                    </div>
+                                {% elif block.value.media_type == 'video' and block.value.video_url %}
+                                    <div class="col-md-6">
+                                        <iframe width="100%" height="250" src="{{ block.value.video_url }}" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
+
 
             
 
@@ -125,6 +132,61 @@
                 {{ page.project_result|richtext }}
             </div>
             {% endif %}
+
+            <!-- Reviews Section -->
+            <section class="onovo-section gap-top-40 gap-bottom-140">
+                <div class="container">
+
+                    <div class="onovo-reviews gap-140" style="background-color: #000;">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+                                <div class="onovo-reviews-carousel reviews--full onovo-text-white align-center">
+                                    <div class="swiper-container js-reviews-carousel" data-loop="false" data-autoplay="6000">
+                                        <div class="swiper-wrapper">
+
+                                            {% with first_review=page.reviews|first %}
+                                                {% if first_review %}
+                                                    <div class="swiper-slide onovo-reviews-item" data-swiper-autoplay>
+                                                        <div class="text">
+                                                            <div data-splitting>
+                                                                <p>{{ first_review.value.quote }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <h5 class="title">
+                                                            <span data-splitting>{{ first_review.value.name }}</span>
+                                                        </h5>
+                                                        {% if first_review.value.role %}
+                                                        <div class="subtitle">
+                                                            <span data-splitting>{{ first_review.value.role }}</span>
+                                                        </div>
+                                                        {% endif %}
+                                                        <div class="onovo-stars stars--small">
+                                                            {% for i in "12345"|make_list %}
+                                                                {% if forloop.counter <= first_review.value.stars %}
+                                                                    <i class="fas fa-star"></i>
+                                                                {% else %}
+                                                                    <i class="far fa-star"></i>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endwith %}
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+
+
             <div class="onovo-bts col-xs-12 col-sm-12 col-md-12 col-lg-6 offset-lg-3 align-center">
 				<a class="onovo-btn btn--border onovo-hover-btn align-center" href="/contact/">
 					<i class="arrow">
