@@ -26,10 +26,10 @@
 					<div class="onovo-breadcrums">
 						<ul>
 							<li>
-								<a href="/">Home </a>
+								<a href="/">{{ page.breadcrumb_home }}  </a>
 							</li>
 							<li class="current">
-								<span>Projects </span>
+								<span>{{ page.breadcrumb_portfolio }} </span>
 							</li>
 						</ul>
 					</div>
@@ -53,7 +53,7 @@
 										<ul>
 											<li>
 												<button class="onovo-filter-item item--active" type="button" data-filter="*">
-													<span>All Projects</span>
+													<span>{{ page.project_title }} </span>
 												</button>
 											</li>
 											{% for tag in page.get_tags %}
@@ -102,11 +102,11 @@
                                         <div>
                                             <ul data-splitting data-onovo-scroll>
                                                 <li>
-                                                    <strong>Project Summary</strong><br>
+                                                    <strong>{{ page.project_summary }} </strong><br>
 													{{ project.subtitle | richtext }} 
                                                 </li>
                                                 <li>
-                                                    <strong>Date</strong><br>
+                                                    <strong>{{ page.date_title }} </strong><br>
                                                     {{ project.single_date | richtext }}
                                                 </li>
                                             </ul>

@@ -52,11 +52,11 @@
 
                     <!-- Description -->
                     <div class="onovo-text">
-                        <h3>Description</h3>
+                        <h3>{{ page.info_description }}</h3>
                         {{ page.description|richtext }}
                         {% if page.project_requirement %}
                             <div class="onovo-text gap-top-50">
-                                <h6 class="text-uppercase">Project Requirement</h6>
+                                <h6 class="text-uppercase">{{ page.info_requirement }}</h6>
                                 {{ page.project_requirement|richtext }}
                             </div>
                         {% endif %}
@@ -69,31 +69,31 @@
                         <ul>
                             {% if page.client %}
                             <li>
-                                <div><strong>Client:</strong></div>
+                                <div><strong>{{ page.info_client }}</strong></div>
                                 <div>{{ page.client|richtext }}</div>
                             </li>
                             {% endif %}
                             {% if page.industry %}
                             <li>
-                                <div><strong>Industry</strong></div>
+                                <div><strong>{{ page.info_industry }}</strong></div>
                                 <div>{{ page.industry|richtext }}</div>
                             </li>
                             {% endif %}
                             {% if page.services %}
                             <li>
-                                <div><strong>Services:</strong></div>
+                                <div><strong>{{ page.info_services }}</strong></div>
                                 <div>{{ page.services|richtext }}</div>
                             </li>
                             {% endif %}
                             {% if page.platforms %}
                             <li>
-                                <div><strong>Platforms:</strong></div>
+                                <div><strong>{{ page.info_platforms }}</strong></div>
                                 <div>{{ page.platforms|richtext }}</div>
                             </li>
                             {% endif %}
                             {% if page.website %}
                             <li>
-                                <div><strong>Website:</strong></div>
+                                <div><strong>{{ page.info_website }}</strong></div>
                                 <div>{{ page.website|richtext }}</div>
                             </li>
                             {% endif %}
@@ -128,7 +128,7 @@
             <!--Result -->
             {% if page.project_result %}
             <div class="onovo-text gap-top-50">
-                <h6 class="text-uppercase">Project Result</h6>
+                <h6 class="text-uppercase">{{ page.project_result_title }}</h6>
                 {{ page.project_result|richtext }}
             </div>
             {% endif %}
@@ -184,15 +184,12 @@
 
                 </div>
             </section>
-
-
-
             <div class="onovo-bts col-xs-12 col-sm-12 col-md-12 col-lg-6 offset-lg-3 align-center">
 				<a class="onovo-btn btn--border onovo-hover-btn align-center" href="/contact/">
 					<i class="arrow">
 					    <span></span>
 					</i>
-					<span> Contact Us </span>
+					<span> {{ page.btn_text }} </span>
 				</a>
 			</div>
         </div>

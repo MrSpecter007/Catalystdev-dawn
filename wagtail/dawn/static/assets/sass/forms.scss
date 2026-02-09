@@ -1,0 +1,46 @@
+/* Hide labels visually but keep for accessibility */
+.form-field > label {
+    position: absolute;
+    left: -9999px;
+}
+
+/* Input wrapper */
+.input-wrap {
+    position: relative;
+}
+
+/* Inputs */
+.input-wrap input,
+.input-wrap textarea {
+    width: 100%;
+    padding-bottom: 36px;
+}
+
+/* Help text inside field */
+.form-hint {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+
+    font-size: 13px;
+    line-height: 1.3;
+    color: #9b9b9b;
+
+    pointer-events: none;
+}
+
+/* Static help text (checkbox section) */
+.form-hint.static {
+    position: static;
+    margin-top: 6px;
+    margin-bottom: 10px;
+}
+
+/* Checkbox spacing */
+.checkbox-group {
+    margin-top: 8px;
+}
+
+.checkbox-group label {
+    position: static;
+}

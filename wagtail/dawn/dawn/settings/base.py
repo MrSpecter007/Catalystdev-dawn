@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "portfolio",
     "search",
     "shared",
+    "wagtailmenus",
     'wagtail.locales',
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -176,7 +177,6 @@ DATA_UPLOAD_MAX_NUMBER_FIELDS = 10_000
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "dawn"
-
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html
 WAGTAILSEARCH_BACKENDS = {

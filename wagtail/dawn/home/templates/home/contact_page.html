@@ -28,8 +28,8 @@
 
             <div class="onovo-breadcrums">
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li class="current"><span>Contact Us</span></li>
+                    <li><a href="/">{{ page.breadcrumb_home }}</a></li>
+                    <li class="current"><span>{{ page.breadcrumb_contact }}</span></li>
                 </ul>
             </div>
         </div>
@@ -51,55 +51,58 @@
 
                     <!-- Contact Form -->
                     <div class="onovo-form">
+
                         {% if form_submitted %}
                             <div class="alert-success">
                                 <h5>{{ page.thank_you_text|richtext }}</h5>
                             </div>
                         {% else %}
-                            <form method="POST" class="cform" action="{% pageurl page %}">
+
+                            <form method="POST" class="cform" id="cform" novalidate>
                                 {% csrf_token %}
                                 <div class="row">
+
                                     {% for field in form %}
-                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                            <p>
-                                                {% comment %}
-                                                Render textarea for multiline fields, input for others.
-                                                Compatible with all Wagtail versions.
-                                                {% endcomment %}
-                                                {% if field.field_type == "multiline" %}
-                                                    <textarea name="{{ field.html_name }}"
-															id="{{ field.id_for_label }}"
-															class="onovo-input">
-													{% if field.value %}{{ field.value|escape }}{% endif %}
-													</textarea>
+                                        <div class="col-12 mb-3">
+                                            <div class="form-group">
+
+                                                {% if field.field.widget.input_type == "checkbox" %}
+                                                    <div class="form-check">
+                                                        {{ field.label_tag }}
+                                                        {{ field }}
+                                                        
+                                                    </div>
                                                 {% else %}
-                                                    <input
-                                                        type="text"
-                                                        name="{{ field.html_name }}"
-                                                        id="{{ field.id_for_label }}"
-                                                        value="{{ field.value|default_if_none:''|escape }}"
-                                                        placeholder="{{ field.help_text|default_if_none:field.label }}"
-                                                        class="onovo-input">
+                                                    {{ field.label_tag }}
+                                                    {{ field }}
+                                                {% endif %}
+
+                                                {% if field.help_text %}
+                                                    <small class="form-help">{{ field.help_text }}</small>
                                                 {% endif %}
 
                                                 {% if field.errors %}
-                                                    <div class="field-error">{{ field.errors|striptags }}</div>
+                                                    <div class="text-danger">
+                                                        {{ field.errors }}
+                                                    </div>
                                                 {% endif %}
-                                            </p>
+
+                                            </div>
                                         </div>
                                     {% endfor %}
 
-                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <p>
-                                            <button type="submit" class="onovo-btn onovo-hover-btn">
-                                                <span>Send Message</span>
-                                            </button>
-                                        </p>
+                                    <div class="col-12 text-center">
+                                        <button type="submit" class="onovo-btn onovo-hover-btn">{{ page.btn_Text }}</button>
                                     </div>
+
                                 </div>
                             </form>
+
                         {% endif %}
+
                     </div>
+
+
 
                 </div>
 
@@ -108,19 +111,19 @@
                     <div class="onovo-contact-info onovo-text-white">
                         <ul>
                             <li>
-                                <h5>Contact Info</h5>
+                                <h5>{{ page.box_title }}</h5>
                                 <a href="mailto:info@catalystdv.com" class="onovo-lnk lnk--white" target="_blank">info@catalystdv.com</a>
                                 <div class="onovo-social-1 onovo-social-active" style="margin-top: 10px;">
                                     <ul>
-                                        <li><a href="#" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-facebook"></i></a></li>
-                                        <li><a href="#" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-instagram"></i></a></li>
+                                        <li><a href="https://www.facebook.com/catalystdv/" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-facebook"></i></a></li>
+                                        <li><a href="https://www.instagram.com/catalystdevsolutions/" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-instagram"></i></a></li>
                                         <li><a href="#" class="onovo-social-link onovo-hover-2"><i class="icon fab fa-linkedin"></i></a></li>
                                     </ul>
                                 </div>
                             </li>
                             <li>
-                                <h5>Montreal</h5>
-                                <div>4388 R. Saint-Denis #182</div>
+                                <h5>{{ page.box_city }}</h5>
+                                <div>{{ page.box_address }}</div>
                             </li>
                         </ul>
                     </div>
@@ -134,8 +137,8 @@
     <section class="onovo-section gap-top-80 gap-bottom-140">
         <div class="container">
             <div class="onovo-heading align-center gap-bottom-40">
-                <div class="onovo-subtitle-1"><span>Client’s FAQ</span></div>
-                <h2 class="onovo-title-2"><span>Solving Business Problems <br>is An Everyday</span></h2>
+                <div class="onovo-subtitle-1"><span>{{ page.faq_subtitle }}</span></div>
+                <h2 class="onovo-title-2"><span>{{ page.faq_title }}</span></h2>
             </div>
 
             <div class="onovo-faq-items">

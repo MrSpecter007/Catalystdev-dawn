@@ -13,9 +13,33 @@ from wagtail.blocks import StructBlock, ChoiceBlock, URLBlock
 from wagtail.contrib.forms.models import AbstractEmailForm, AbstractFormField
 from wagtail.contrib.forms.forms import FormBuilder
 from wagtail.blocks import PageChooserBlock
+from shared.blocks import ServiceItemBlock
 
 from .forms import PlaceholderFormBuilder
 
+# ---------------------------
+# ABOUT PAGE SERVICE ITEM BLOCK
+# ---------------------------
+class AboutServiceBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=True)
+    description = blocks.TextBlock(required=True)
+    image = ImageChooserBlock(required=False)
+    link = blocks.URLBlock(required=False)
+
+    class Meta:
+        icon = "cog"
+        label = "Service"
+
+# ---------------------------
+# FAQ BLOCK
+# ---------------------------
+class FAQBlock(blocks.StructBlock):
+    title = blocks.CharBlock(required=True)
+    text = blocks.RichTextBlock(required=True)
+
+    class Meta:
+        icon = "help"
+        label = "FAQ Item"
 
 # ---------------------------
 # TAGGING
@@ -46,7 +70,10 @@ class GalleryItemBlock(StructBlock):
     class Meta:
         icon = "image"
         label = "Gallery Item"
-        
+
+# ---------------------------
+# REVIEWS BLOCK
+# ---------------------------        
 class ReviewBlock(blocks.StructBlock):
     quote = blocks.TextBlock(required=True, help_text="The review text")
     name = blocks.CharBlock(required=True, max_length=50, help_text="Reviewer name")
@@ -71,6 +98,11 @@ class ReviewBlock(blocks.StructBlock):
 class PortfolioIndexPage(Page):
     portfolio_title = models.CharField(max_length=250, blank=True)
     portfolio_subtitle = models.CharField(max_length=250, blank=True)
+    breadcrumb_home = models.CharField(max_length=150, blank=True)
+    breadcrumb_portfolio = models.CharField(max_length=150, blank=True)
+    project_title = models.CharField(max_length=150, blank=True)
+    project_summary = models.CharField(max_length=250, blank=True)
+    date_title = models.CharField(max_length=150, blank=True)
 
     template = "portfolio/portfolioindexpage.html"
     subpage_types = ["portfolio.ProjectPage"]
@@ -78,6 +110,11 @@ class PortfolioIndexPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("portfolio_title"),
         FieldPanel("portfolio_subtitle"),
+        FieldPanel("breadcrumb_home"),
+        FieldPanel("breadcrumb_portfolio"),
+        FieldPanel("project_title"),
+        FieldPanel("project_summary"),
+        FieldPanel("date_title"),
     ]
 
     def get_projects(self):
@@ -112,12 +149,23 @@ class ProjectPage(Page):
     description = RichTextField(blank=True)
     project_requirement = RichTextField(blank=True)
     project_result = RichTextField(blank=True)
+    project_result_title = models.CharField(max_length=150, blank=True)
+    info_description = models.CharField(max_length=150, blank=True)
+    info_requirement = models.CharField(max_length=150, blank=True)
+    info_client = models.CharField(max_length=150, blank=True)
+    info_industry = models.CharField(max_length=150, blank=True)
+    info_services = models.CharField(max_length=150, blank=True)
+    info_platforms = models.CharField(max_length=150, blank=True)
+    info_date = models.CharField(max_length=150, blank=True)
+    info_website = models.CharField(max_length=150, blank=True)
+    btn_text = models.CharField(max_length=150, blank=True)
+    
 
-    client = RichTextField(blank=True)
-    industry = RichTextField(blank=True)
+    client = models.CharField(max_length=150, blank=True)
+    industry = models.CharField(max_length=150, blank=True)
     services = RichTextField(blank=True)
     platforms = RichTextField(blank=True)
-    single_date = RichTextField(blank=True)
+    single_date = models.CharField(max_length=150, blank=True)
     website = RichTextField(blank=True)
     
     tags = ClusterTaggableManager(
@@ -140,8 +188,18 @@ class ProjectPage(Page):
         FieldPanel("hero_image"),
         FieldPanel("subtitle"),
         FieldPanel("description"),
+        FieldPanel("info_description"),
+        FieldPanel("info_requirement"),
+        FieldPanel("info_client"),
+        FieldPanel("info_industry"),
+        FieldPanel("info_services"),
+        FieldPanel("info_platforms"),
+        FieldPanel("info_date"),
+        FieldPanel("info_website"),
+        FieldPanel("btn_text"),
         FieldPanel("project_requirement"),
         FieldPanel("project_result"),
+        FieldPanel("project_result_title"),
         FieldPanel("reviews"),
         MultiFieldPanel(
             [
@@ -164,28 +222,55 @@ class ProjectPage(Page):
 # ---------------------------
 class ServiceIndexPage(Page):
     intro = RichTextField(blank=True)
+    breadcrumb_home = models.CharField(blank=True, max_length=150)
+    breadcrumb_services = models.CharField(blank=True, max_length=150)
+    video_link = models.URLField(blank=True)
+    video_text = models.CharField(blank=True, max_length=50)
+    about_title = models.CharField(blank=True, max_length=50)
+    reviews = StreamField([("review", ReviewBlock())], blank=True, use_json_field=True)
+    contact_subtitle = models.CharField(blank=True, max_length=50)
+    contact_title = models.CharField(blank=True, max_length=50)
+    contact_email = models.EmailField(blank=True)
+    contact_address = models.CharField(blank=True, max_length=250)
+    btn_text = models.CharField(blank=True, max_length=50)
+    about_subtitle = models.CharField(blank=True, max_length=50)
+    services_title = models.CharField(blank=True, max_length=50)
+    services_list = StreamField(
+        [
+            ("service", ServiceItemBlock()),
+        ],
+        blank=True,
+        use_json_field=True,
+    )
 
+    services = StreamField(
+        [('service', AboutServiceBlock())],
+        use_json_field=True,
+        blank=True
+    )
+    
+    
     template = "portfolio/serviceindexpage.html"
     subpage_types = ["portfolio.ServicePage"]
 
-    content_panels = Page.content_panels + [FieldPanel("intro")]
-
-class ServiceItemBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=True)
-    description = blocks.RichTextBlock(required=True)
-
-    class Meta:
-        icon = "list-ul"
-        label = "Service Item"
-
-
-class FAQBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=True)
-    text = blocks.RichTextBlock(required=True)
-
-    class Meta:
-        icon = "help"
-        label = "FAQ Item"
+    content_panels = Page.content_panels + [
+        FieldPanel("intro"),
+        FieldPanel("breadcrumb_home"),
+        FieldPanel("breadcrumb_services"),
+        FieldPanel("video_link"),
+        FieldPanel("video_text"),
+        FieldPanel("about_title"),
+        FieldPanel("about_subtitle"),
+        FieldPanel("services_title"),
+        FieldPanel("reviews"),
+        FieldPanel("contact_subtitle"),
+        FieldPanel("contact_title"),
+        FieldPanel("contact_email"),
+        FieldPanel("contact_address"),
+        FieldPanel("btn_text"),
+        FieldPanel("services"),
+        FieldPanel("services_list"),
+    ]
         
 class ServicePage(Page):
     # Hero
@@ -203,6 +288,9 @@ class ServicePage(Page):
 
     # Main content
     service_description = RichTextField(blank=True)
+    breadcrumb_home = models.CharField(max_length=150, blank=True)
+    btn_text = models.CharField(max_length=255, blank=True)
+    servicelist_title = models.CharField(max_length=255, blank=True)
 
     services = StreamField(
         [
@@ -231,11 +319,14 @@ class ServicePage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("hero_image"),
+        FieldPanel("breadcrumb_home"),
         FieldPanel("service_title"),
         FieldPanel("service_subtitle"),
         FieldPanel("service_tagline"),
         FieldPanel("service_description"),
         FieldPanel("services"),
+        FieldPanel("btn_text"),
+        FieldPanel("servicelist_title"),
         MultiFieldPanel(
             [
                 FieldPanel("service_FAQ_tagline"),
