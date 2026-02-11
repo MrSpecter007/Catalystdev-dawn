@@ -1,0 +1,91 @@
+{% load wagtailcore_tags %}
+{% load static %}
+{% load i18n %}
+
+<header class="onovo-header header--white">
+    <div class="header--builder">
+        <div class="container">
+            <div class="row">
+
+                <!-- Logo -->
+                <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-3 align-self-center">
+                    <div class="onovo-logo-image" style="max-width: 70px">
+                        <a href="/">
+                            <img src="{% static 'assets/images/cd-symbol-purple.png' %}" alt="Onovo" />
+                            <img class="logo--white" src="{% static 'assets/images/cd-symbol-purple.png' %}" alt="Catalystdev" />
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Main Menu -->
+                <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-6 align-self-center align-center">
+
+                    <a href="#" class="onovo-menu-btn"><span></span></a>
+
+                    <div class="onovo-menu-popup align-left">
+                        <div class="onovo-menu-overlay"></div>
+                        <div class="onovo-menu-overlay-after"></div>
+
+                        <div class="onovo-menu-container onovo--noscroll">
+                            <div class="container">
+                                <div class="onovo-menu">
+
+                                    <ul class="onovo-menu-nav">
+                                        {% for item in main_menu.items.all %}
+                                            {% if not item.parent %}
+                                                {% with children=item.children.all %}
+                                                    <li class="{% if children %}dropdown-link menu-item-has-children{% endif %}">
+                                                        <a class="onovo-lnk lnk--active {% if children %}onovo-dropdown-toggle{% endif %}"
+                                                           href="{% if item.page %}{% pageurl item.page %}{% else %}#{% endif %}">
+                                                            {{ item.title }}
+                                                        </a>
+
+                                                        {% if children %}
+                                                            <i class="icon fas fa-chevron-down"></i>
+                                                            <ul class="sub-menu">
+                                                                {% for child in children %}
+                                                                    <li>
+                                                                        <a class="onovo-lnk lnk--active"
+                                                                           href="{% pageurl child.page %}">
+                                                                            {{ child.title }}
+                                                                        </a>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endwith %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <!-- Language Switcher Dropdown -->
+                                        {% include "shared/language_switcher.html" %}
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                {% if main_menu.cta_page %}
+                <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-3 align-self-center align-right">
+                    <a class="onovo-head-btn onovo-hover-btn"
+                       href="{% pageurl main_menu.cta_page %}">
+                        <span>
+                            <span class="onovo-lnk lnk--active">
+                                {{ main_menu.cta_label }}
+                            </span>
+                        </span>
+                        <i class="arrow">
+                            <span></span>
+                        </i>
+                    </a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</header>

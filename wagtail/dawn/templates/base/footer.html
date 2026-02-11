@@ -1,85 +1,102 @@
-{% load wagtailcore_tags %}
-{% load static %}
+{% load wagtailcore_tags static %}
 
+<footer class="onovo-footer footer--dark">
+    <div class="footer--default">
+        <div class="container">
 
-		<!-- Footer -->
-		<footer class="onovo-footer footer--dark">
-			<div class="footer--default">
-				<div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="onovo-text onovo-text-white">
+                        <h5>{{ footer.about_title }}</h5>
+                        <div style="opacity:0.6;">
+                            {{ footer.about_text|richtext }}
+                        </div>
+                    </div>
+                </div>
 
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3">
+                <div class="col-lg-3 offset-lg-1">
+                    <div class="onovo-text onovo-text-white">
+                        <h5>{{ footer.contact_title }}</h5>
+                        <p style="opacity:0.6;">{{ footer.address|linebreaksbr }}</p>
+                        <p style="opacity:0.6;">
+                            {{ footer.email_label }}:
+                            <a href="mailto:{{ footer.email }}"
+                               class="onovo-lnk lnk--white">
+                                {{ footer.email }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
 
-							<!-- Description -->
-							<div class="onovo-text onovo-text-white">
-								<h5>About Catalystdev</h5>
-								<p style="opacity: 0.6;">Catalystdev is a Montreal-based full-service digital agency. We craft brands, build custom digital platforms, and grow businesses online — with every project handled personally by our small, dedicated team.</p>
-							</div>
+                <div class="col-lg-3 offset-lg-1">
+                    <div class="onovo-text onovo-text-white">
+                        <h5>{{ footer.legal_title }}</h5>
 
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 offset-lg-1">
+                        <p>
+                            <a href="{{ footer.terms_url }}" class="onovo-lnk lnk--white">
+                                {{ footer.terms_label }}
+                            </a>
+                        </p>
 
-							<!-- Description -->
-							<div class="onovo-text onovo-text-white">
-								<h5>Contact Us</h5>
-								<p style="opacity: 0.6;">4388 R. Saint-Denis #182 <br />Montreal, QC </p>
-								<p style="opacity: 0.6;">
-									<a href="mailto:info@catalystdv.com" class="onovo-lnk lnk--white" target="_blank">info@catalystdv.com</a>
-								</p>
-							</div>
+                        <p>
+                            <a href="{{ footer.privacy_url }}" class="onovo-lnk lnk--white">
+                                {{ footer.privacy_label }}
+                            </a>
+                        </p>
 
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-3 offset-lg-1">
+                        <p>
+                            <a href="{{ footer.cookie_url }}" class="onovo-lnk lnk--white">
+                                {{ footer.cookie_label }}
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-							<!-- Description -->
-							<div class="onovo-text onovo-text-white">
-								<h5>Legal</h5>
-								<p style="opacity: 0.6;"><a href="/terms-and-conditions/" class="onovo-lnk lnk--white" >Terms & Conditions</a>
-									<br /></p>
-								<p style="opacity: 0.6;"><a href="/privacy-policy/" class="onovo-lnk lnk--white" >Privacy Policy</a><br /></p>
-								<p style="opacity: 0.6;"><a href="/cookie-policy/" class="onovo-lnk lnk--white" >Cookie Policy</a></p>
-							</div>
+            <div class="separator"></div>
 
-						</div>
-					</div>
+            <div class="row">
+                <div class="col-md-6 align-self-center">
+                    <div class="copyright onovo-text-white">
+                        {{ footer.rendered_copyright }}
+                    </div>
+                </div>
 
-					<div class="separator"></div>
+                <div class="col-md-6 align-right">
+                    <div class="onovo-social-1 onovo-social-active">
+                        <ul>
+                            {% if footer.facebook_url %}
+                            <li>
+                                <a class="onovo-social-link onovo-hover-2"
+                                   href="{{ footer.facebook_url }}"
+                                   target="_blank">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if footer.linkedin_url %}
+                            <li>
+                                <a class="onovo-social-link onovo-hover-2"
+                                   href="{{ footer.linkedin_url }}"
+                                   target="_blank">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if footer.instagram_url %}
+                            <li>
+                                <a class="onovo-social-link onovo-hover-2"
+                                   href="{{ footer.instagram_url }}"
+                                   target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 align-self-center">
-
-							<!-- Copyright -->
-							<div class="copyright onovo-text-white">
-								© 2026 Catalystdev Web Design. All rights reserved.
-							</div>
-
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 align-right">
-
-							<!-- Social-->
-							<div class="onovo-social-1 onovo-social-active">
-								<ul>
-									<li>
-										<a class="onovo-social-link onovo-hover-2" href="http://linkedin.com" title="LinkedIn" target="_blank">
-											<i class="fab fa-facebook"></i>
-										</a>
-									</li>
-									<li>
-										<a class="onovo-social-link onovo-hover-2" href="http://linkedin.com" title="LinkedIn" target="_blank">
-											<i class="fab fa-linkedin-in"></i>
-										</a>
-									</li>
-									<li>
-										<a class="onovo-social-link onovo-hover-2" href="http://dribbble.com" title="Dribbble" target="_blank">
-											<i class="fab fa-instagram"></i>
-										</a>
-									</li>
-								</ul>
-							</div>
-
-						</div>
-					</div>
-
-				</div>
-			</div>
-        </footer>
+        </div>
+    </div>
+</footer>

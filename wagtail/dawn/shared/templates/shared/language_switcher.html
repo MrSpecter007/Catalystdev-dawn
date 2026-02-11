@@ -1,0 +1,23 @@
+{% load wagtailcore_tags i18n %}
+
+{% if page_translations %}
+<li class="dropdown-link menu-item-has-children">
+    <!-- Current Language -->
+    {% get_current_language as LANGUAGE_CODE %}
+    <a class="onovo-lnk onovo-dropdown-toggle" href="#">
+        {{ LANGUAGE_CODE|upper }}
+    </a>
+    <i class="icon fas fa-chevron-down"></i>
+
+    <!-- Dropdown Menu -->
+    <ul class="sub-menu">
+        {% for item in page_translations %}
+            <li class="{% if item.locale.language_code == request.LANGUAGE_CODE %}is-active{% endif %}">
+                <a href="{% pageurl item.page %}">{{ item.locale.get_display_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</li>
+{% endif %}
+
+

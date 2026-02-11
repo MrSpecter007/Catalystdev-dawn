@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     "portfolio",
     "search",
     "shared",
-    "wagtailmenus",
     'wagtail.locales',
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -80,6 +79,10 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                
+                # Shared navbar and footer 
+                "shared.context_processors.main_menu",
+                "shared.context_processors.footer",
             ],
         },
     },
