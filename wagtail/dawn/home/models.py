@@ -86,12 +86,10 @@ class HomePage(Page):
     parralax_Title = models.CharField(blank=True, max_length=50)
     parralax_ButtonLink = models.CharField(null=True, blank=True, max_length=50)
     parralax_ButtonText = models.CharField(null=True, max_length=20)
-    parralax_Video = models.ForeignKey(
-        Embed,
-        on_delete=models.SET_NULL,
-        null=True,
+    parralax_Video = models.FileField(
+        upload_to='videos/',
         blank=True,
-        related_name="+",
+        null=True
     )
     
     about_Subtitle = models.CharField(blank=True, max_length=50)

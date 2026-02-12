@@ -185,9 +185,12 @@ class ProjectPage(Page):
     parent_page_types = ["portfolio.PortfolioIndexPage"]
 
     content_panels = Page.content_panels + [
+        MultiFieldPanel([
         FieldPanel("hero_image"),
         FieldPanel("subtitle"),
         FieldPanel("description"),
+        ], heading="Hero Section"),
+        MultiFieldPanel([
         FieldPanel("info_description"),
         FieldPanel("info_requirement"),
         FieldPanel("info_client"),
@@ -196,19 +199,21 @@ class ProjectPage(Page):
         FieldPanel("info_platforms"),
         FieldPanel("info_date"),
         FieldPanel("info_website"),
-        FieldPanel("btn_text"),
+        ], heading="Info box Heading"),
+        MultiFieldPanel([
         FieldPanel("project_requirement"),
         FieldPanel("project_result"),
         FieldPanel("project_result_title"),
         FieldPanel("reviews"),
-        MultiFieldPanel(
-            [
+        FieldPanel("btn_text"),
+        ], heading="Project Details"),
+        MultiFieldPanel([
                 FieldPanel("client"),
                 FieldPanel("industry"),
                 FieldPanel("services"),
                 FieldPanel("platforms"),
                 FieldPanel("single_date"),
-                FieldPanel("website"),
+                FieldPanel("website"),     
             ],
             heading="Project Info",
         ),
