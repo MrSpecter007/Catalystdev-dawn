@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='contactpage',
             name='form_Subtitle',
-            field=models.CharField(blank=True),
+            field=models.CharField(blank=True, max_length=150),
         ),
         migrations.AddField(
             model_name='contactpage',
