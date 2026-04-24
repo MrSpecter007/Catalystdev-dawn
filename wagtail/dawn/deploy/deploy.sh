@@ -1,32 +1,27 @@
 #!/usr/bin/env bash
 # Hostinger VPS deployment script for Dawn (Wagtail)
-# Run this on the VPS as root (or sudo), then subsequent runs as www-data via sudo.
-# Usage: bash deploy/deploy.sh
-
+# Run on the VPS as root: bash deploy.sh
 set -euo pipefail
 
-APP_DIR="/var/www/dawn"
-REPO_URL="https://github.com/YOUR_ORG/YOUR_REPO.git"   # <-- replace
+REPO_URL="https://github.com/MrSpecter007/Catalystdev-dawn.git"
 BRANCH="main"
+REPO_DIR="/var/www/catalystdev-dawn"
+APP_DIR="$REPO_DIR/wagtail/dawn"
 PYTHON="python3.12"
 
 echo "==> Installing system packages"
 apt-get update -q
 apt-get install -y -q \
     git nginx python3.12 python3.12-venv python3.12-dev \
-    default-libmysqlclient-dev build-essential \
-    certbot python3-certbot-nginx
-
-echo "==> Creating app directory"
-mkdir -p "$APP_DIR"
-chown www-data:www-data "$APP_DIR"
+    default-libmysqlclient-dev build-essential pkg-config \
+    mysql-server certbot python3-certbot-nginx
 
 echo "==> Cloning / pulling repo"
-if [ -d "$APP_DIR/.git" ]; then
-    git -C "$APP_DIR" fetch origin "$BRANCH"
-    git -C "$APP_DIR" reset --hard "origin/$BRANCH"
+if [ -d "$REPO_DIR/.git" ]; then
+    git -C "$REPO_DIR" fetch origin "$BRANCH"
+    git -C "$REPO_DIR" reset --hard "origin/$BRANCH"
 else
-    git clone --branch "$BRANCH" "$REPO_URL" "$APP_DIR"
+    git clone --branch "$BRANCH" "$REPO_URL" "$REPO_DIR"
 fi
 
 echo "==> Setting up Python virtual environment"
@@ -36,10 +31,13 @@ fi
 "$APP_DIR/venv/bin/pip" install --upgrade pip
 "$APP_DIR/venv/bin/pip" install -r "$APP_DIR/requirements.txt"
 
-echo "==> Setting up .env (skip if already exists)"
+echo "==> Setting up .env"
 if [ ! -f "$APP_DIR/.env" ]; then
     cp "$APP_DIR/.env.example" "$APP_DIR/.env"
-    echo "  !! Edit $APP_DIR/.env before continuing !!"
+    echo ""
+    echo "  !! .env created. Edit it now before continuing:"
+    echo "     nano $APP_DIR/.env"
+    echo "  Then re-run this script."
     exit 1
 fi
 
@@ -47,13 +45,14 @@ fi
 set -a; source "$APP_DIR/.env"; set +a
 
 echo "==> Running migrations"
-"$APP_DIR/venv/bin/python" "$APP_DIR/manage.py" migrate --noinput
+cd "$APP_DIR"
+"$APP_DIR/venv/bin/python" manage.py migrate --noinput
 
 echo "==> Collecting static files"
-"$APP_DIR/venv/bin/python" "$APP_DIR/manage.py" collectstatic --noinput --clear
+"$APP_DIR/venv/bin/python" manage.py collectstatic --noinput --clear
 
 echo "==> Fixing permissions"
-chown -R www-data:www-data "$APP_DIR"
+chown -R www-data:www-data "$REPO_DIR"
 mkdir -p /var/log/dawn
 chown -R www-data:www-data /var/log/dawn
 
@@ -66,11 +65,15 @@ systemctl restart dawn
 echo "==> Installing nginx config"
 cp "$APP_DIR/deploy/nginx.conf" /etc/nginx/sites-available/dawn
 ln -sf /etc/nginx/sites-available/dawn /etc/nginx/sites-enabled/dawn
+rm -f /etc/nginx/sites-enabled/default
 nginx -t
 systemctl reload nginx
 
 echo ""
-echo "==> Done! Next steps:"
-echo "  1. Edit $APP_DIR/.env with your real values"
-echo "  2. Run: certbot --nginx -d yourdomain.com -d www.yourdomain.com"
-echo "  3. Visit https://yourdomain.com/admin to verify"
+echo "==> Deployment complete!"
+echo "    Site: http://187.127.252.86"
+echo "    Admin: http://187.127.252.86/admin"
+echo ""
+echo "    When you have a domain:"
+echo "    1. Update nginx.conf server_name and run: certbot --nginx -d yourdomain.com"
+echo "    2. Set HTTPS=true in $APP_DIR/.env and restart: systemctl restart dawn"
