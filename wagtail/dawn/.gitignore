@@ -1,0 +1,42 @@
+# Environment files — never commit real secrets
+.env.local
+.env.production
+.env.showroom
+dawn/settings/local.py
+
+# SQLite dev database
+db.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Django collected static (served from volume in Docker)
+staticfiles/
+
+# Media uploads (managed outside Git — keep media.tar.gz local, not in repo)
+media/
+media.tar.gz
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Docker
+*.log
