@@ -1,6 +1,8 @@
 services:
   app:
     build: .
+    container_name: catalystdev-app
+    restart: unless-stopped
     environment:
       # Override wsgi.py's production default so Gunicorn uses dev settings
       DJANGO_SETTINGS_MODULE: dawn.settings.dev
@@ -13,7 +15,11 @@ services:
       # Separate volume so collectstatic output survives bind-mount overlay
       - staticfiles_vol:/app/staticfiles
     ports:
+      # Direct access fallback (http://localhost:8000) — useful without Caddy
       - "8000:8000"
+    networks:
+      - catalystdev-local
+      - default
     command: >
       sh -c "python manage.py collectstatic --noinput --clear &&
              python manage.py migrate --noinput &&
@@ -25,3 +31,7 @@ services:
 
 volumes:
   staticfiles_vol:
+
+networks:
+  catalystdev-local:
+    external: true
