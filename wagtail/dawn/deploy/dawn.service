@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-WorkingDirectory=/var/www/dawn
-EnvironmentFile=/var/www/dawn/.env
-ExecStart=/var/www/dawn/venv/bin/gunicorn \
+WorkingDirectory=/var/www/catalystdev-dawn/wagtail/dawn
+EnvironmentFile=/var/www/catalystdev-dawn/wagtail/dawn/.env
+ExecStart=/var/www/catalystdev-dawn/wagtail/dawn/venv/bin/gunicorn \
     --workers 3 \
     --bind unix:/run/dawn/dawn.sock \
     --access-logfile /var/log/dawn/access.log \

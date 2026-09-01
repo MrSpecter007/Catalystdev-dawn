@@ -17,8 +17,9 @@ ALLOWED_HOSTS = [host.strip() for host in os.environ.get("ALLOWED_HOSTS", "").sp
 HTTPS_ENABLED = env_bool("HTTPS", default=True)
 REQUEST_SCHEME = "https" if HTTPS_ENABLED else "http"
 
+_scheme = "https" if os.environ.get("HTTPS", "false").lower() == "true" else "http"
 CSRF_TRUSTED_ORIGINS = [
-    f"{REQUEST_SCHEME}://{host}" for host in ALLOWED_HOSTS
+    f"{REQUEST_SCHEME}://{host}" for host in ALLOWED_HOSTS if host
 ]
 
 # Database — MySQL on Hostinger VPS
@@ -40,16 +41,14 @@ DATABASES = {
 # Static files
 STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
-# Security headers
+# Security headers — set HTTPS=true in .env once SSL is configured
 SECURE_SSL_REDIRECT = HTTPS_ENABLED
 SESSION_COOKIE_SECURE = HTTPS_ENABLED
 CSRF_COOKIE_SECURE = HTTPS_ENABLED
 SECURE_HSTS_SECONDS = 31536000 if HTTPS_ENABLED else 0
 SECURE_HSTS_INCLUDE_SUBDOMAINS = HTTPS_ENABLED
 SECURE_HSTS_PRELOAD = HTTPS_ENABLED
-
-if HTTPS_ENABLED:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if HTTPS_ENABLED else None
 
 # Wagtail
 WAGTAILADMIN_BASE_URL = os.environ.get("WAGTAILADMIN_BASE_URL", f"{REQUEST_SCHEME}://example.com")
