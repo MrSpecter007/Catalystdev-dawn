@@ -1,7 +1,7 @@
-from django.contrib.staticfiles.storage import ManifestStaticFilesStorage
+from whitenoise.storage import CompressedManifestStaticFilesStorage
 
 
-class RelaxedManifestStorage(ManifestStaticFilesStorage):
+class RelaxedManifestStorage(CompressedManifestStaticFilesStorage):
     manifest_strict = False
 
     def hashed_name(self, name, content=None, filename=None):
