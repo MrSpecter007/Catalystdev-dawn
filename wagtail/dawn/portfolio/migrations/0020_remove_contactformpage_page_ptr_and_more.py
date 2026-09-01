@@ -7,6 +7,7 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    atomic = False  # required so SET FOREIGN_KEY_CHECKS works outside a transaction
 
     dependencies = [
         ('portfolio', '0019_remove_servicepage_body_remove_servicepage_intro_and_more'),
@@ -14,6 +15,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL('SET FOREIGN_KEY_CHECKS=0;', migrations.RunSQL.noop),
         migrations.RemoveField(
             model_name='contactformpage',
             name='page_ptr',
@@ -191,4 +193,5 @@ class Migration(migrations.Migration):
         migrations.DeleteModel(
             name='ServiceIndexPage',
         ),
+        migrations.RunSQL('SET FOREIGN_KEY_CHECKS=1;', migrations.RunSQL.noop),
     ]
