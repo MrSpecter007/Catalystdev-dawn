@@ -932,22 +932,6 @@
   },
   {
     "model": "taggit.tag",
-    "pk": 1,
-    "fields": {
-      "name": "branding",
-      "slug": "branding"
-    }
-  },
-  {
-    "model": "taggit.tag",
-    "pk": 2,
-    "fields": {
-      "name": "web development",
-      "slug": "web-development"
-    }
-  },
-  {
-    "model": "taggit.tag",
     "pk": 3,
     "fields": {
       "name": "Digital Strategy",
