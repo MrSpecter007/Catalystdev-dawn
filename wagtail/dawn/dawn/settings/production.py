@@ -39,7 +39,7 @@ DATABASES = {
 }
 
 # Static files
-STORAGES["staticfiles"]["BACKEND"] = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
+STORAGES["staticfiles"]["BACKEND"] = "dawn.storage.RelaxedManifestStorage"
 
 # Security headers — set HTTPS=true in .env once SSL is configured
 SECURE_SSL_REDIRECT = HTTPS_ENABLED
