@@ -14,10 +14,19 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        # Delete ContactFormField first so its FK to ContactFormPage.page_ptr_id
-        # is gone before we try to drop that column (MySQL enforces this strictly).
-        migrations.DeleteModel(
-            name='ContactFormField',
+        # Drop ContactFormField table first (IF EXISTS — the table may be absent on
+        # a fresh MySQL DB) so its FK to ContactFormPage.page_ptr_id is gone before
+        # we try to drop that column.
+        migrations.SeparateDatabaseAndState(
+            database_operations=[
+                migrations.RunSQL(
+                    sql='DROP TABLE IF EXISTS `portfolio_contactformfield`;',
+                    reverse_sql=migrations.RunSQL.noop,
+                ),
+            ],
+            state_operations=[
+                migrations.DeleteModel(name='ContactFormField'),
+            ],
         ),
         migrations.RemoveField(
             model_name='contactformpage',
