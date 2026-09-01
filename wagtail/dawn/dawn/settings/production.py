@@ -39,7 +39,7 @@ DATABASES = {
 }
 
 # Static files
-STORAGES["staticfiles"]["BACKEND"] = "dawn.storage.RelaxedManifestStorage"
+STORAGES["staticfiles"]["BACKEND"] = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Security headers — set HTTPS=true in .env once SSL is configured
 SECURE_SSL_REDIRECT = HTTPS_ENABLED
