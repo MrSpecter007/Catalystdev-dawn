@@ -1,0 +1,153 @@
+/*
+  CatalystDev Admin Theme — Wagtail 7
+  Brand: Epilogue / Lime #9DE72F (accent only) / Navy #3C0063 / Black #000000
+  Primary UI tone: professional dark slate — lime is accent, not fill.
+*/
+
+/* ── Typography ───────────────────────────────────────────────────────────── */
+:root {
+  --w-font-sans: "Epilogue", system-ui, -apple-system, sans-serif;
+  --w-font-mono: "Epilogue", ui-monospace, "SF Mono", monospace;
+}
+
+body,
+.sidebar,
+.w-field__label,
+.w-label,
+h1, h2, h3, h4, h5, h6,
+.sidebar-menu-item__link,
+.button,
+input, textarea, select,
+.w-dialog,
+.tippy-box {
+  font-family: "Epilogue", system-ui, sans-serif !important;
+}
+
+/* ── Primary colour → dark slate (HSL 218 23% 23%) ────────────────────────
+   Using a conservative charcoal as the Wagtail primary so that page-explorer
+   active fills, checkboxes, toggles, tags etc. render in a professional dark
+   tone rather than the brand lime. Lime is reserved as an explicit accent.    */
+:root {
+  --w-color-primary-hue: 218;
+  --w-color-primary-saturation: 23%;
+  --w-color-primary-lightness: 23%;
+}
+
+/* ── Sidebar background → logo purple #3C0063 ─────────────────────────────── */
+:root {
+  --w-color-surface-menus: #3C0063;
+}
+
+.sidebar,
+.sidebar-loading,
+[data-controller="w-sidebar"],
+[data-controller="w-sidebar"] > .sidebar {
+  background-color: #3C0063 !important;
+}
+
+.sidebar__inner,
+.sidebar-panel,
+.sidebar-sub-menu-item__link,
+.sidebar-footer {
+  background-color: #3C0063;
+}
+
+/* ── Sidebar active & hover → lime accent (explicit override) ─────────────── */
+.sidebar-menu-item__link--active,
+.sidebar-menu-item__link.sidebar-menu-item__link--active,
+.sidebar-top-level-item--active .sidebar-menu-item__link,
+.sidebar-menu-item__link:hover,
+.sidebar-menu-item__link:focus-visible {
+  color: #9DE72F !important;
+  background-color: rgba(157, 231, 47, 0.08) !important;
+}
+
+.sidebar-menu-item__link--active::before,
+.sidebar-top-level-item--active .sidebar-menu-item__link::before {
+  background-color: #9DE72F !important;
+}
+
+/* ── Primary buttons → black pill, lime on hover ──────────────────────────── */
+.button,
+.button.button--primary,
+button[type="submit"].button,
+.button-longrunning {
+  font-family: "Epilogue", sans-serif !important;
+  font-weight: 700;
+  border-radius: 66px !important;
+  letter-spacing: 0;
+}
+
+.button.button--primary,
+button[type="submit"]:not(.button--secondary):not(.button--warning):not(.button--critical),
+.button-longrunning.button--primary {
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  color: #ffffff !important;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.button.button--primary:hover,
+.button.button--primary:focus-visible,
+button[type="submit"]:not(.button--secondary):not(.button--warning):not(.button--critical):hover,
+button[type="submit"]:not(.button--secondary):not(.button--warning):not(.button--critical):focus-visible,
+.button-longrunning.button--primary:hover {
+  background-color: #9DE72F !important;
+  border-color: #9DE72F !important;
+  color: #000000 !important;
+}
+
+/* Secondary / outline */
+.button.button--secondary {
+  border-color: #000000 !important;
+  color: #000000 !important;
+  border-radius: 66px !important;
+  font-family: "Epilogue", sans-serif !important;
+  font-weight: 700;
+  background: transparent !important;
+}
+.button.button--secondary:hover,
+.button.button--secondary:focus-visible {
+  background-color: #9DE72F !important;
+  border-color: #9DE72F !important;
+  color: #000000 !important;
+}
+
+/* ── Focus ring → lime ────────────────────────────────────────────────────── */
+:focus-visible {
+  outline-color: #9DE72F !important;
+}
+.w-focus-visible,
+[data-focus-visible] {
+  outline-color: #9DE72F !important;
+}
+
+/* ── Top header bar ───────────────────────────────────────────────────────── */
+.w-slim-header,
+.w-header,
+header[data-controller] {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* ── Heading weights ──────────────────────────────────────────────────────── */
+h1, h2, h3,
+.w-panel__heading,
+.w-slim-header__title,
+.w-header__title {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* ── Links ────────────────────────────────────────────────────────────────── */
+a:not(.button):not(.sidebar-menu-item__link) {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+a:not(.button):not(.sidebar-menu-item__link):hover {
+  color: #9DE72F;
+}
+
+/* ── Wagtail userbar on the public site ───────────────────────────────────── */
+wagtail-userbar .w-userbar__action a:hover {
+  color: #9DE72F;
+}

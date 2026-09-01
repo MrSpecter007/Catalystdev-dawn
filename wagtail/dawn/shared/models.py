@@ -1,5 +1,5 @@
 from django.db import models
-from wagtail.models import Page, Site
+from wagtail.models import Page, Site, Orderable
 from wagtail.snippets.models import register_snippet
 from wagtail.admin.panels import FieldPanel, InlinePanel, PageChooserPanel, MultiFieldPanel
 from modelcluster.models import ClusterableModel
@@ -39,7 +39,7 @@ class MainMenu(ClusterableModel):
         return self.title
 
 
-class MenuItem(models.Model):
+class MenuItem(Orderable):
     menu = ParentalKey(
         MainMenu,
         related_name="items",
@@ -64,14 +64,19 @@ class MenuItem(models.Model):
         on_delete=models.CASCADE
     )
 
+    css_class = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
+        help_text="Optional CSS class(es) added to this nav item's <li> and <a> (e.g. menu-item--demo)"
+    )
+
     panels = [
         FieldPanel("title"),
         PageChooserPanel("page"),
         FieldPanel("parent"),
+        FieldPanel("css_class"),
     ]
-
-    class Meta:
-        ordering = ["id"]
 
     def __str__(self):
         return self.title

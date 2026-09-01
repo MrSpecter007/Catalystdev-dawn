@@ -1,0 +1,59 @@
+{% extends "wagtailadmin/login.html" %}
+{% load static %}
+
+{% block branding_login %}
+<div style="text-align: center; margin-bottom: 32px;">
+    <img src="{% static 'assets/images/cd-symbol-purple.png' %}"
+         alt="CatalystDev"
+         style="height: 56px; width: auto; display: inline-block; margin-bottom: 16px;">
+    <h1 style="font-family: 'Epilogue', sans-serif; font-size: 22px; font-weight: 700;
+                color: #000; letter-spacing: -0.02em; margin: 0;">
+        CatalystDev CMS
+    </h1>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+{{ block.super }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="{% static 'css/wagtail_admin.css' %}">
+<style>
+    /* Login page specific overrides */
+    body {
+        font-family: "Epilogue", sans-serif !important;
+        background-color: #ffffff !important;
+    }
+    .login {
+        background-color: #ffffff !important;
+    }
+    .login__form,
+    .login-form {
+        font-family: "Epilogue", sans-serif;
+    }
+    /* Login button: black pill */
+    .login__form .button,
+    .login__form [type="submit"],
+    .login-form .button,
+    .login-form [type="submit"] {
+        font-family: "Epilogue", sans-serif !important;
+        font-weight: 700 !important;
+        border-radius: 66px !important;
+        background-color: #000000 !important;
+        border-color: #000000 !important;
+        color: #ffffff !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .login__form .button:hover,
+    .login__form [type="submit"]:hover,
+    .login-form .button:hover,
+    .login-form [type="submit"]:hover {
+        background-color: #9DE72F !important;
+        border-color: #9DE72F !important;
+        color: #000000 !important;
+    }
+    /* Focus ring */
+    :focus-visible { outline-color: #9DE72F !important; }
+</style>
+{% endblock %}

@@ -1,0 +1,729 @@
+{% extends "base/base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-platformindexpage{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Platform index custom styles ─────────────────────── */
+.plat-hero-sub {
+    max-width: 560px;
+    margin: 20px 0 0;
+    font-size: 16px;
+    line-height: 1.7;
+    opacity: 0.72;
+}
+.plat-hero-cta {
+    margin-top: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+}
+
+/* Status chips */
+.plat-chip {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 2px;
+    margin-bottom: 18px;
+}
+.plat-chip--live    { background: #C6F135; color: #111; }
+.plat-chip--in_demo { background: #f5a623; color: #111; }
+.plat-chip--coming_soon { border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.5); }
+
+/* Card CTA button */
+.plat-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #111;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: 1px solid #111;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    cursor: pointer;
+}
+.plat-book-btn:hover { background: #C6F135; color: #111; border-color: #C6F135; }
+.plat-book-btn .arr { font-size: 14px; transition: transform 0.2s; }
+.plat-book-btn:hover .arr { transform: translateX(4px); }
+
+.plat-demo-link {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.5;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: opacity 0.2s;
+}
+.plat-demo-link:hover { opacity: 1; }
+
+/* Outcome list */
+.plat-outcomes {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+}
+.plat-outcomes li {
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 5px 0 5px 18px;
+    position: relative;
+    opacity: 0.75;
+}
+.plat-outcomes li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    font-size: 11px;
+    opacity: 0.5;
+}
+
+/* Card hover lift */
+.plat-card {
+    transition: transform 0.25s ease;
+    cursor: default;
+}
+.plat-card:hover { transform: translateY(-3px); }
+
+/* At 2-col layout, add a subtle divider between rows */
+@media (min-width: 768px) {
+    .plat-card { padding-right: 24px; }
+}
+
+/* Walkthrough steps */
+.walkthrough-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin-top: 60px;
+}
+@media (max-width: 768px) {
+    .walkthrough-steps { grid-template-columns: 1fr; gap: 24px; }
+}
+.walkthrough-step {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.walkthrough-step__num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.35;
+}
+.walkthrough-step__title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.walkthrough-step__desc {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.6;
+}
+
+/* Staff access panel — logo purple surface */
+.plat-staff-access {
+    background: #3C0063;
+    color: #fff;
+    padding: 80px 0;
+}
+.plat-staff-access__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+.plat-staff-access__label {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #9DE72F;
+    margin-bottom: 12px;
+}
+.plat-staff-access__title {
+    font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: #fff;
+}
+.plat-staff-access__note {
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.6);
+    max-width: 400px;
+    margin: 0;
+}
+.plat-staff-access__action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 14px;
+    flex-shrink: 0;
+}
+.plat-staff-access__langs {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    display: flex;
+    gap: 6px;
+}
+.plat-book-btn--lime {
+    background: #9DE72F !important;
+    color: #000 !important;
+    border-color: #9DE72F !important;
+}
+.plat-book-btn--lime:hover {
+    background: #000 !important;
+    color: #9DE72F !important;
+    border-color: #000 !important;
+}
+@media (max-width: 768px) {
+    .plat-staff-access__inner { flex-direction: column; align-items: flex-start; }
+    .plat-staff-access__action { align-items: flex-start; }
+}
+
+/* Booking strip — lime background for maximum contrast */
+.plat-booking-strip {
+    background: #C6F135;
+    color: #111;
+    padding: 80px 0;
+    text-align: center;
+}
+.plat-booking-strip h2 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #111 !important;
+}
+.plat-booking-strip p {
+    color: rgba(0,0,0,0.6);
+    font-size: 15px;
+    margin-bottom: 40px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.plat-booking-strip .plat-book-btn {
+    background: #111;
+    color: #C6F135;
+    border-color: #111;
+    font-size: 12px;
+    padding: 16px 36px;
+}
+.plat-booking-strip .plat-book-btn:hover { background: #000; border-color: #000; color: #C6F135; }
+
+/* ── Solutions / Platforms tab toggle ────── */
+.plat-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(0,0,0,0.10);
+    margin-bottom: 60px;
+}
+.plat-tab {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 28px 12px;
+    cursor: pointer;
+    color: rgba(0,0,0,0.32);
+    margin-bottom: -1px;
+    transition: color 0.18s, border-color 0.18s;
+}
+.plat-tab:hover:not(.plat-tab--active) { color: rgba(0,0,0,0.6); }
+.plat-tab--active { color: #111; border-bottom-color: #111; }
+
+/* ── Solution cards ───────────────────────── */
+.solution-card {
+    background: #F7F7F5;
+    border-top: 3px solid #C6F135;
+    padding: 36px 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.22s ease;
+}
+.solution-card:hover { transform: translateY(-3px); }
+.solution-card__kicker {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.38);
+    margin-bottom: 14px;
+}
+.solution-card__title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin-bottom: 14px;
+    color: #111;
+}
+.solution-card__desc {
+    font-size: 13px;
+    line-height: 1.75;
+    color: rgba(0,0,0,0.55);
+    margin-bottom: 22px;
+    flex: 1;
+}
+.solution-card__outcomes {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 22px;
+}
+.solution-card__outcomes li {
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 4px 0 4px 16px;
+    position: relative;
+    color: rgba(0,0,0,0.6);
+}
+.solution-card__outcomes li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    font-size: 10px;
+    opacity: 0.4;
+}
+.solution-card__platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 26px;
+}
+.solution-card__platform-chip {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border: 1px solid rgba(0,0,0,0.15);
+    padding: 3px 9px;
+    color: rgba(0,0,0,0.5);
+}
+
+/* ── Browser-frame wrapper for platform screenshots */
+.plat-browser {
+    margin-bottom: 28px;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.09);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+.plat-browser__bar {
+    height: 30px;
+    background: #EAECEE;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 6px;
+    flex-shrink: 0;
+}
+.plat-browser__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.plat-browser__url {
+    flex: 1;
+    height: 15px;
+    background: #D5D8DB;
+    border-radius: 3px;
+    margin-left: 6px;
+}
+/* Fixed 16:9 viewport — shows the top of each screenshot uniformly */
+.plat-browser__viewport {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+}
+.plat-browser__viewport img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="onovo-page footer--fixed">
+    <div class="wrapper">
+
+        <!-- ── Hero ─────────────────────────────────────── -->
+        <section class="onovo-section onovo-intro intro--black">
+            <div class="container">
+                <h1 class="onovo-title-1 onovo-text-white">
+                    <span>{{ page.intro_title|default:"Platform Showroom" }}</span>
+                    <span class="onovo-sep word">
+                        <i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
+                    </span>
+                </h1>
+                {% if page.intro_subtitle %}
+                <div class="plat-hero-sub onovo-text-white">
+                    {{ page.intro_subtitle }}
+                </div>
+                {% endif %}
+
+                {% if page.booking_url %}
+                <div class="plat-hero-cta">
+                    <a href="{{ page.booking_url }}" class="plat-book-btn" style="background:#C6F135;color:#111;border-color:#C6F135;font-size:12px;padding:16px 36px;">
+                        {{ page.booking_cta_text|default:"Book a Walkthrough" }}
+                        <span class="arr">→</span>
+                    </a>
+                    <a href="#view-toggle" style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;opacity:0.5;text-decoration:none;">
+                        See Platforms ↓
+                    </a>
+                </div>
+                {% endif %}
+
+                <div class="onovo-breadcrums" style="margin-top:48px;">
+                    <ul>
+                        <li><a href="/">{{ page.breadcrumb_home }}</a></li>
+                        <li class="current"><span>{{ page.breadcrumb_current }}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Solutions / Platforms tab toggle ────────── -->
+        <section id="view-toggle" class="onovo-section gap-top-140">
+            <div class="container">
+                <nav class="plat-tabs" role="tablist" aria-label="View mode">
+                    <button class="plat-tab plat-tab--active" role="tab" aria-selected="true"  aria-controls="solutions-panel" id="tab-solutions" data-target="solutions-panel">Solutions</button>
+                    <button class="plat-tab"                  role="tab" aria-selected="false" aria-controls="platforms-panel" id="tab-platforms" data-target="platforms-panel">Platforms</button>
+                </nav>
+
+                <!-- ── Solutions panel ────────────────────── -->
+                <div id="solutions-panel" role="tabpanel" aria-labelledby="tab-solutions">
+                    <div style="max-width:580px;margin-bottom:60px;">
+                        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.4;margin-bottom:12px;">Solutions</p>
+                        <h2 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:700;line-height:1.25;letter-spacing:-0.02em;margin-bottom:16px;">Proven systems for the way your business already works</h2>
+                        <p style="font-size:14px;line-height:1.75;opacity:0.6;margin:0;">Each solution is a pre-configured stack built for a specific business type. Pick the one that matches your situation — we'll walk you through it live.</p>
+                    </div>
+
+                    <div class="row">
+
+                        <!-- Solution 1: Retail & Trade Supply -->
+                        <div class="col-12 col-md-6" style="margin-bottom:40px;">
+                            <div class="solution-card">
+                                <p class="solution-card__kicker">Commerce · Distribution</p>
+                                <h3 class="solution-card__title">Retail &amp; Trade Supply</h3>
+                                <p class="solution-card__desc">For retailers, distributors and B2B suppliers. A full commerce operation — product catalogue, order management, customer accounts and fulfilment tracking — ready on day one.</p>
+                                <ul class="solution-card__outcomes">
+                                    <li>Track inventory across product variants and locations</li>
+                                    <li>Manage orders at any volume, any region</li>
+                                    <li>Fulfilment tracked in a single admin</li>
+                                </ul>
+                                <div class="solution-card__platforms">
+                                    <span class="solution-card__platform-chip">POSTGRESQL</span>
+                                    <span class="solution-card__platform-chip">OSCAR</span>
+                                    <span class="solution-card__platform-chip">PYTHON</span>
+                                </div>
+                                <a href="#platforms-panel" class="plat-demo-link" onclick="switchTab('platforms-panel');return false;">Explore the platform →</a>
+                            </div>
+                        </div>
+
+                        <!-- Solution 2: Professional Services -->
+                        <div class="col-12 col-md-6" style="margin-bottom:40px;">
+                            <div class="solution-card">
+                                <p class="solution-card__kicker">Finance · Advisory</p>
+                                <h3 class="solution-card__title">Professional Services Office</h3>
+                                <p class="solution-card__desc">For accountants, consultants and advisors. A secure client portal with document collection, checklist workflows, tax-season scheduling and audit-ready activity logs.</p>
+                                <ul class="solution-card__outcomes">
+                                    <li>Clients upload documents and track their file status in real time</li>
+                                    <li>100+ accounts with tiered pricing, tax forms and purchase order workflow</li>
+                                    <li>Bilingual support for French and English client accounts</li>
+                                </ul>
+                                <div class="solution-card__platforms">
+                                    <span class="solution-card__platform-chip">LARAVEL</span>
+                                    <span class="solution-card__platform-chip">VUE 3</span>
+                                    <span class="solution-card__platform-chip">INERTIA</span>
+                                    <span class="solution-card__platform-chip">MYSQL</span>
+                                </div>
+                                <a href="#platforms-panel" class="plat-demo-link" onclick="switchTab('platforms-panel');return false;">Explore the platform →</a>
+                            </div>
+                        </div>
+
+                        <!-- Solution 3: Practice Management -->
+                        <div class="col-12 col-md-6" style="margin-bottom:40px;">
+                            <div class="solution-card">
+                                <p class="solution-card__kicker">Healthcare · Services</p>
+                                <h3 class="solution-card__title">Practice Management</h3>
+                                <p class="solution-card__desc">For clinics, studios and appointment-based businesses. Scheduling, patient or client records, team access controls and bilingual patient communication — pre-configured for regulated trades.</p>
+                                <ul class="solution-card__outcomes">
+                                    <li>Appointment scheduling, patient records, and team management for any service-based practice</li>
+                                    <li>Configurable for medical, dental, veterinary, wellness, or consulting practices</li>
+                                    <li>Connected dashboard surfaces revenue, sectors, and repeat-buyer trends</li>
+                                </ul>
+                                <div class="solution-card__platforms">
+                                    <span class="solution-card__platform-chip">DJANGO</span>
+                                    <span class="solution-card__platform-chip">WAGTAIL</span>
+                                    <span class="solution-card__platform-chip">POSTGRES</span>
+                                </div>
+                                <a href="#platforms-panel" class="plat-demo-link" onclick="switchTab('platforms-panel');return false;">Explore the platform →</a>
+                            </div>
+                        </div>
+
+                        <!-- Solution 4: Creative Studio Delivery -->
+                        <div class="col-12 col-md-6" style="margin-bottom:40px;">
+                            <div class="solution-card">
+                                <p class="solution-card__kicker">Creative · Agency</p>
+                                <h3 class="solution-card__title">Creative Studio Delivery</h3>
+                                <p class="solution-card__desc">For photographers, agencies and post-production teams. Gallery delivery, client approval gates, proofing annotations and project invoicing — all in one client-facing workflow.</p>
+                                <ul class="solution-card__outcomes">
+                                    <li>Galleries and project sets presented at full resolution with silent proofing workflows</li>
+                                    <li>Clients select, comment, and approve deliverables from a private review portal</li>
+                                    <li>Configurable for photography, videography, architecture, design, and illustration</li>
+                                </ul>
+                                <div class="solution-card__platforms">
+                                    <span class="solution-card__platform-chip">DJANGO</span>
+                                    <span class="solution-card__platform-chip">WAGTAIL</span>
+                                    <span class="solution-card__platform-chip">S3</span>
+                                    <span class="solution-card__platform-chip">HTMX</span>
+                                </div>
+                                <a href="#platforms-panel" class="plat-demo-link" onclick="switchTab('platforms-panel');return false;">Explore the platform →</a>
+                            </div>
+                        </div>
+
+                    </div><!-- /.row -->
+                </div><!-- /#solutions-panel -->
+
+                <!-- ── Platforms panel ────────────────────── -->
+                <div id="platforms-panel" role="tabpanel" aria-labelledby="tab-platforms" style="display:none;">
+                    <div style="max-width:580px;margin-bottom:60px;">
+                        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.4;margin-bottom:12px;">Platforms</p>
+                        <h2 style="font-size:clamp(1.4rem,3vw,2rem);font-weight:700;line-height:1.25;letter-spacing:-0.02em;margin-bottom:16px;">Look at our projects</h2>
+                        <p style="font-size:14px;line-height:1.75;opacity:0.6;margin:0;">Each platform is a live, fully operational showroom. Book a walkthrough to see the admin, the customer-facing flows, and how it's configured for your industry.</p>
+                    </div>
+
+                    <div class="row">
+                    {% for platform in platforms %}
+                    <div class="col-12 col-md-6" style="margin-bottom: 80px;">
+                        <div class="plat-card">
+
+                            {% if platform.hero_image %}
+                            <div class="plat-browser">
+                                <div class="plat-browser__bar">
+                                    <span class="plat-browser__dot" style="background:#FF6058;"></span>
+                                    <span class="plat-browser__dot" style="background:#FFBD2E;"></span>
+                                    <span class="plat-browser__dot" style="background:#28CA42;"></span>
+                                    <div class="plat-browser__url"></div>
+                                </div>
+                                <div class="plat-browser__viewport">
+                                    {% image platform.hero_image width-900 alt=platform.title %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <span class="plat-chip plat-chip--{{ platform.status }}">
+                                {% if platform.status == "live" %}Live
+                                {% elif platform.status == "in_demo" %}In Demo
+                                {% else %}Coming Soon
+                                {% endif %}
+                            </span>
+
+                            {% if platform.category %}
+                            <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.45;margin-bottom:8px;">
+                                {{ platform.category }}
+                            </div>
+                            {% endif %}
+
+                            <h5 class="title" style="margin-bottom:14px;">
+                                <span data-splitting data-onovo-scroll>{{ platform.title }}</span>
+                            </h5>
+
+                            {% if platform.tagline %}
+                            <div class="onovo-text" style="margin-bottom:16px;font-size:14px;opacity:0.7;line-height:1.65;">
+                                {{ platform.tagline }}
+                            </div>
+                            {% endif %}
+
+                            {% with platform.get_outcome_list as outcomes %}
+                            {% if outcomes %}
+                            <ul class="plat-outcomes">
+                                {% for outcome in outcomes %}
+                                <li>{{ outcome }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% endwith %}
+
+                            {% with platform.get_tech_list as techs %}
+                            {% if techs %}
+                            <div style="margin-bottom:28px;">
+                                {% for tech in techs %}
+                                <span style="display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(0,0,0,0.15);padding:3px 9px;margin:2px 3px 2px 0;color:inherit;">{{ tech }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+
+                            <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+                                {% if request.user.is_authenticated and platform.demo_url %}
+                                <a href="{{ platform.demo_url }}" class="plat-book-btn plat-book-btn--launch" target="_blank" rel="noopener">
+                                    Open Platform <span class="arr">→</span>
+                                </a>
+                                {% else %}
+                                {% if platform.effective_booking_url %}
+                                <a href="{{ platform.effective_booking_url }}" class="plat-book-btn">
+                                    {{ platform.booking_label|default:"Book to View" }}
+                                    <span class="arr">→</span>
+                                </a>
+                                {% endif %}
+                                {% if platform.demo_url and platform.status == "live" %}
+                                <a href="{{ platform.demo_url }}" target="_blank" rel="noopener noreferrer" class="plat-demo-link">
+                                    {{ platform.demo_label|default:"Preview" }}
+                                </a>
+                                {% endif %}
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <p>No platforms published yet — check back soon.</p>
+                    </div>
+                    {% endfor %}
+                    </div><!-- /.row -->
+                </div><!-- /#platforms-panel -->
+
+            </div><!-- /.container -->
+        </section>
+
+        <!-- ── What a walkthrough includes ─────────────── -->
+        <section class="onovo-section gap-bottom-140" style="border-top:1px solid rgba(0,0,0,0.08);padding-top:80px;">
+            <div class="container">
+                <div>
+                    <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.4;margin-bottom:12px;">Process</p>
+                    <h2 style="font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;max-width:480px;line-height:1.3;">What happens after you book</h2>
+                </div>
+                <div class="walkthrough-steps">
+                    <div class="walkthrough-step">
+                        <span class="walkthrough-step__num">01</span>
+                        <div class="walkthrough-step__title">Choose a time</div>
+                        <div class="walkthrough-step__desc">Pick a 30-minute slot that works for you. No commitment required — just a conversation.</div>
+                    </div>
+                    <div class="walkthrough-step">
+                        <span class="walkthrough-step__num">02</span>
+                        <div class="walkthrough-step__title">Tell us what you need</div>
+                        <div class="walkthrough-step__desc">A short form after booking helps us understand your business and which platform fits best.</div>
+                    </div>
+                    <div class="walkthrough-step">
+                        <span class="walkthrough-step__num">03</span>
+                        <div class="walkthrough-step__title">Get a guided walkthrough</div>
+                        <div class="walkthrough-step__desc">We walk you through the live platform — the full admin, customer-facing flows, and how it's configured for your industry.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── Staff & Partner Access (unauthenticated only) ── -->
+        {% if not request.user.is_authenticated %}
+        <section class="plat-staff-access">
+            <div class="container">
+                <div class="plat-staff-access__inner">
+                    <div>
+                        <p class="plat-staff-access__label">Staff &amp; Partner Access</p>
+                        <h3 class="plat-staff-access__title">Already have access?</h3>
+                        <p class="plat-staff-access__note">
+                            The CatalystDev admin is available in English and French.<br>
+                            To request demo credentials, contact your CatalystDev representative — we'll walk you through the platform live.
+                        </p>
+                    </div>
+                    <div class="plat-staff-access__action">
+                        <a href="/admin/" class="plat-book-btn plat-book-btn--lime">
+                            Staff Login <span class="arr">→</span>
+                        </a>
+                        <div class="plat-staff-access__langs">
+                            <span>EN</span><span>·</span><span>FR</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- ── Booking strip ──────────────────────────────── -->
+        {% if page.booking_url %}
+        <div class="plat-booking-strip">
+            <div class="container">
+                <h2>Ready to see a platform?</h2>
+                <p>Browse the lineup above, then book a private walkthrough to see the full experience.</p>
+                <a href="{{ page.booking_url }}" class="plat-book-btn">
+                    {{ page.booking_cta_text|default:"Book a Walkthrough" }}
+                    <span class="arr">→</span>
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div><!-- /.wrapper -->
+
+</div>
+
+<script>
+(function () {
+    var tabs    = document.querySelectorAll('.plat-tab');
+    var panels  = document.querySelectorAll('[role="tabpanel"]');
+
+    function activate(targetId) {
+        tabs.forEach(function (t) {
+            var active = t.dataset.target === targetId;
+            t.classList.toggle('plat-tab--active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        panels.forEach(function (p) {
+            p.style.display = p.id === targetId ? '' : 'none';
+        });
+        // Push state so the browser back button works
+        if (history.replaceState) {
+            history.replaceState(null, '', '#' + targetId);
+        }
+    }
+
+    tabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+            activate(tab.dataset.target);
+            document.getElementById('view-toggle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    window.switchTab = function (targetId) {
+        activate(targetId);
+        document.getElementById('view-toggle').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    // Honour deep-link hash on load
+    var hash = location.hash.replace('#', '');
+    if (hash === 'platforms-panel' || hash === 'platforms') {
+        activate('platforms-panel');
+    }
+})();
+</script>
+
+{% endblock %}

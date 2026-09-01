@@ -1,0 +1,216 @@
+{% extends "base/base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-platformpage{% endblock %}
+
+{% block extra_css %}
+<style>
+.plat-chip {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 2px;
+    margin-bottom: 0;
+}
+.plat-chip--live    { background: #C6F135; color: #111; }
+.plat-chip--in_demo { background: #f5a623; color: #111; }
+.plat-chip--coming_soon { border: 1px solid rgba(0,0,0,0.2); color: #999; }
+
+.plat-book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #111;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 16px 28px;
+    border: 1px solid #111;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+.plat-book-btn:hover { background: #C6F135; color: #111; border-color: #C6F135; }
+.plat-book-btn .arr { transition: transform 0.2s; }
+.plat-book-btn:hover .arr { transform: translateX(4px); }
+
+.plat-demo-link {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: 0.45;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: opacity 0.2s;
+}
+.plat-demo-link:hover { opacity: 0.8; }
+
+.plat-outcomes {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0;
+}
+.plat-outcomes li {
+    font-size: 13px;
+    line-height: 1.6;
+    padding: 6px 0 6px 20px;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.plat-outcomes li:last-child { border-bottom: none; }
+.plat-outcomes li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    opacity: 0.4;
+    font-size: 11px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="onovo-page footer--fixed">
+    <div class="wrapper">
+
+        <!-- Intro -->
+        <section class="onovo-section onovo-intro intro--black">
+            <div class="container">
+                <h1 class="onovo-title-1 onovo-text-white">
+                    <span>{{ page.title }}</span>
+                    <span class="onovo-sep word">
+                        <i class="sep-img" style="background-image: url({% static 'assets/images/title_icon.svg' %});"></i>
+                    </span>
+                </h1>
+                {% if page.tagline %}
+                <div class="onovo-subtitle-2 onovo-text-white">
+                    <span>{{ page.tagline }}</span>
+                </div>
+                {% endif %}
+                <div class="onovo-breadcrums">
+                    <ul>
+                        <li><a href="/">{{ page.breadcrumb_home }}</a></li>
+                        <li><a href="{{ page.get_parent.url }}">{{ page.breadcrumb_platforms }}</a></li>
+                        <li class="current"><span>{{ page.title }}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detail -->
+        <section class="onovo-section gap-top-140 gap-bottom-140">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Main content -->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+
+                        {% if page.hero_image %}
+                        <div class="gap-bottom-50">
+                            {% image page.hero_image fill-800x500 alt=page.title %}
+                        </div>
+                        {% endif %}
+
+                        {% if page.description %}
+                        <div class="onovo-text">
+                            {{ page.description|richtext }}
+                        </div>
+                        {% endif %}
+
+                        {% with page.get_outcome_list as outcomes %}
+                        {% if outcomes %}
+                        <div style="margin-top:48px;">
+                            <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;opacity:0.4;margin-bottom:16px;">What you get</p>
+                            <ul class="plat-outcomes">
+                                {% for outcome in outcomes %}
+                                <li>{{ outcome }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% endwith %}
+
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4" style="padding-left: 40px;">
+                        <div style="position: sticky; top: 120px;">
+
+                            <!-- Status -->
+                            <div style="margin-bottom:24px;">
+                                <span class="plat-chip plat-chip--{{ page.status }}">
+                                    {% if page.status == "live" %}Live
+                                    {% elif page.status == "in_demo" %}In Demo
+                                    {% else %}Coming Soon
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <!-- Category -->
+                            {% if page.category %}
+                            <div style="margin-bottom:24px;">
+                                <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;opacity:0.4;">Category</p>
+                                <p style="font-weight:600;font-size:14px;">{{ page.category }}</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Tech stack -->
+                            {% with page.get_tech_list as techs %}
+                            {% if techs %}
+                            <div style="margin-bottom:32px;">
+                                <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;opacity:0.4;">Tech Stack</p>
+                                <div>
+                                    {% for tech in techs %}
+                                    <span style="display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(0,0,0,0.15);padding:3px 9px;margin:2px 3px 2px 0;">{{ tech }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endwith %}
+
+                            <!-- Primary CTA: booking -->
+                            {% with page.get_effective_booking_url as booking_url %}
+                            {% if booking_url %}
+                            <a href="{{ booking_url }}" class="plat-book-btn">
+                                {{ page.booking_label|default:"Book to View" }}
+                                <span class="arr">→</span>
+                            </a>
+                            {% endif %}
+                            {% endwith %}
+
+                            <!-- Secondary: demo link -->
+                            {% if page.demo_url and page.status == "live" %}
+                            <a href="{{ page.demo_url }}" target="_blank" rel="noopener noreferrer" class="plat-demo-link">
+                                {{ page.demo_label|default:"Preview" }} ↗
+                            </a>
+                            {% endif %}
+
+                            <!-- Back -->
+                            <div style="margin-top:40px;">
+                                <a href="{{ page.get_parent.url }}" class="onovo-lnk" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;">
+                                    ← All Platforms
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+{% endblock %}

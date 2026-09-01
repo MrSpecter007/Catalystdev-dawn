@@ -7967,4 +7967,42 @@ body div.wpforms-container .wpforms-form button.onovo-btn[type=submit],
   background-color: #D8FF36;
 }
 
+/* ── CatalystDev: Book a Demo nav item ─────────────────────────────────── */
+@media (min-width: 992px) {
+  .menu-item--demo {
+    margin-left: 8px;
+  }
+  .menu-lnk--demo {
+    display: inline-flex !important;
+    align-items: center;
+    padding: 8px 22px !important;
+    background: #9DE72F !important;
+    color: #000 !important;
+    border-radius: 66px !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    transition: background 0.3s cubic-bezier(0.3, 0, 0.3, 1),
+                color 0.3s cubic-bezier(0.3, 0, 0.3, 1) !important;
+  }
+  .menu-lnk--demo::after {
+    display: none !important;
+  }
+  .menu-lnk--demo:hover {
+    background: #000 !important;
+    color: #9DE72F !important;
+  }
+}
+@media (max-width: 991px) {
+  .menu-item--demo {
+    border-left: 3px solid #9DE72F;
+    padding-left: 12px;
+    margin-top: 8px;
+  }
+  .menu-lnk--demo {
+    color: #000 !important;
+    font-weight: 700 !important;
+  }
+}
+
 /* --options end */

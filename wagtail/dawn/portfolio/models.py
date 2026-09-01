@@ -389,3 +389,151 @@ class FormEmbedBlock(blocks.StructBlock):
     class Meta:
         template = "blocks/form_embed.html"
         icon = "form"
+
+
+# ---------------------------
+# PLATFORM / SHOWROOM PAGES
+# ---------------------------
+PLATFORM_STATUS_CHOICES = [
+    ("live", "Live"),
+    ("in_demo", "In Demo"),
+    ("coming_soon", "Coming Soon"),
+]
+
+
+class PlatformIndexPage(Page):
+    intro_title = models.CharField(max_length=250, blank=True)
+    intro_subtitle = models.CharField(max_length=250, blank=True)
+    booking_url = models.URLField(
+        blank=True,
+        help_text="Primary booking link (Calendly, etc.) used as fallback for all platform cards.",
+    )
+    booking_cta_text = models.CharField(
+        max_length=100, blank=True, default="Book a Walkthrough"
+    )
+    breadcrumb_home = models.CharField(max_length=150, blank=True)
+    breadcrumb_current = models.CharField(max_length=150, blank=True)
+
+    template = "portfolio/platformindexpage.html"
+    subpage_types = ["portfolio.PlatformPage"]
+
+    content_panels = Page.content_panels + [
+        FieldPanel("intro_title"),
+        FieldPanel("intro_subtitle"),
+        MultiFieldPanel(
+            [
+                FieldPanel("booking_url"),
+                FieldPanel("booking_cta_text"),
+            ],
+            heading="Booking CTA",
+        ),
+        FieldPanel("breadcrumb_home"),
+        FieldPanel("breadcrumb_current"),
+    ]
+
+    def get_platforms(self):
+        return PlatformPage.objects.child_of(self).live().order_by("path")
+
+    def get_context(self, request):
+        context = super().get_context(request)
+        fallback = self.booking_url or ""
+        platforms = self.get_platforms()
+        for p in platforms:
+            p.effective_booking_url = p.booking_url or fallback
+        context["platforms"] = platforms
+        return context
+
+
+class PlatformPage(Page):
+    hero_image = models.ForeignKey(
+        "wagtailimages.Image",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    tagline = models.CharField(max_length=250, blank=True)
+    description = RichTextField(blank=True)
+    outcome = models.TextField(
+        blank=True,
+        help_text="2–3 outcome-focused bullet points, one per line. "
+        "E.g. 'Clients self-serve 80% of recurring requests'",
+    )
+    category = models.CharField(max_length=150, blank=True)
+    tech_stack = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Comma-separated: Django, Wagtail, Python 3.12",
+    )
+    demo_url = models.URLField(blank=True)
+    demo_label = models.CharField(max_length=100, blank=True, default="Try the Demo")
+    booking_url = models.URLField(
+        blank=True,
+        help_text="Per-platform booking link. Falls back to the index page booking URL.",
+    )
+    booking_label = models.CharField(
+        max_length=100, blank=True, default="Book to View"
+    )
+    status = models.CharField(
+        max_length=20, choices=PLATFORM_STATUS_CHOICES, default="live"
+    )
+    breadcrumb_home = models.CharField(max_length=150, blank=True)
+    breadcrumb_platforms = models.CharField(max_length=150, blank=True)
+
+    template = "portfolio/platformpage.html"
+    parent_page_types = ["portfolio.PlatformIndexPage"]
+
+    content_panels = Page.content_panels + [
+        MultiFieldPanel(
+            [
+                FieldPanel("hero_image"),
+                FieldPanel("tagline"),
+                FieldPanel("description"),
+                FieldPanel("outcome"),
+            ],
+            heading="Content",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("category"),
+                FieldPanel("tech_stack"),
+                FieldPanel("status"),
+            ],
+            heading="Metadata",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("booking_url"),
+                FieldPanel("booking_label"),
+            ],
+            heading="Booking CTA",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("demo_url"),
+                FieldPanel("demo_label"),
+            ],
+            heading="Demo Link (secondary)",
+        ),
+        MultiFieldPanel(
+            [
+                FieldPanel("breadcrumb_home"),
+                FieldPanel("breadcrumb_platforms"),
+            ],
+            heading="Breadcrumbs",
+        ),
+    ]
+
+    def get_tech_list(self):
+        return [t.strip() for t in self.tech_stack.split(",") if t.strip()]
+
+    def get_outcome_list(self):
+        return [o.strip() for o in self.outcome.splitlines() if o.strip()]
+
+    def get_effective_booking_url(self):
+        if self.booking_url:
+            return self.booking_url
+        parent = self.get_parent().specific
+        if hasattr(parent, "booking_url") and parent.booking_url:
+            return parent.booking_url
+        return ""

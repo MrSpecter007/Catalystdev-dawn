@@ -1,0 +1,254 @@
+/*
+  CatalystDev — custom site styles
+  Loaded after style.css; do not put utility overrides here.
+*/
+
+/* ── Nav: right group ─────────────────────────────────────────────────────── */
+.nav-right-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: flex-end;
+}
+
+/* Unauthenticated: staff pill — hidden on mobile, pill on desktop */
+.nav-staff-pill {
+  display: none; /* mobile: hidden — auth controls in drawer */
+  align-items: center;
+  gap: 6px;
+  font-family: "Epilogue", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3C0063;
+  border: 1.5px solid rgba(60, 0, 99, 0.35);
+  padding: 6px 13px 6px 10px;
+  border-radius: 66px;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  white-space: nowrap;
+}
+@media (min-width: 992px) {
+  .nav-staff-pill { display: inline-flex; }
+}
+.nav-staff-pill:hover {
+  background: #3C0063;
+  border-color: #3C0063;
+  color: #9DE72F !important;
+}
+.nav-staff-pill:hover img { opacity: 1; filter: brightness(3); }
+
+/* ── CMS utility strip (authenticated, desktop) ────────────────────────────
+   Position: absolute within .header--builder, flush to top-right edge.
+   Own surface (dark translucent + blur) stays legible on any carousel slide. */
+.header--builder { position: relative; }
+
+.cms-strip {
+  display: none; /* hidden on mobile — auth in drawer instead */
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  align-items: center;
+  background: rgba(15, 18, 25, 0.84);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  z-index: 150;
+}
+@media (min-width: 992px) {
+  .cms-strip { display: flex; }
+}
+
+/* "Signed in" status — secondary, readable but not competing */
+.cms-strip__status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Epilogue", sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 0 16px 0 20px;
+  user-select: none;
+  white-space: nowrap;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+.cms-strip__icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+  stroke: rgba(255, 255, 255, 0.55);
+}
+
+/* CMS — lime accent, clearly primary action */
+.cms-strip .cms-strip__link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-family: "Epilogue", sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0 18px;
+  color: #9DE72F !important;
+  transition: color 0.18s ease, background 0.18s ease;
+  white-space: nowrap;
+}
+.cms-strip .cms-strip__link:hover,
+.cms-strip .cms-strip__link:focus-visible {
+  color: #fff !important;
+  background: rgba(157, 231, 47, 0.12);
+  outline: none;
+}
+
+/* Sign out — white, slightly secondary */
+.cms-strip .cms-strip__signout {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  font-family: "Epilogue", sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0 24px 0 16px;
+  color: rgba(255, 255, 255, 0.85) !important;
+  transition: color 0.18s ease, background 0.18s ease;
+  white-space: nowrap;
+}
+.cms-strip .cms-strip__signout:hover,
+.cms-strip .cms-strip__signout:focus-visible {
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.06);
+  outline: none;
+}
+.cms-strip__link:focus-visible,
+.cms-strip__signout:focus-visible {
+  outline: 2px solid #9DE72F;
+  outline-offset: -2px;
+}
+
+/* Vertical separator between CMS and Sign out */
+.cms-strip__sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+}
+
+/* ── CMS mobile auth (inside nav drawer, < 992px only) ─────────────────────── */
+.cms-mobile-auth {
+  list-style: none;
+  padding: 20px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 16px;
+}
+.cms-mobile-auth__label {
+  display: block;
+  font-family: "Epilogue", sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.38;
+  margin-bottom: 10px;
+}
+.cms-mobile-auth__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+}
+.cms-mobile-auth__sep { opacity: 0.22; }
+.cms-mobile-auth__link { font-weight: 700 !important; }
+@media (min-width: 992px) {
+  .cms-mobile-auth { display: none !important; }
+}
+
+/* ── Platform cards: hover + launch button ────────────────────────────────── */
+.plat-book-btn:hover {
+  background: #9DE72F !important;
+  color: #000 !important;
+  border-color: #9DE72F !important;
+}
+.plat-book-btn:hover .arr { transform: translateX(4px); }
+
+/* Authenticated "Open Platform" CTA — purple bg, lime text, inverts on hover */
+.plat-book-btn--launch {
+  background: #3C0063 !important;
+  color: #9DE72F !important;
+  border-color: #3C0063 !important;
+}
+.plat-book-btn--launch:hover {
+  background: #9DE72F !important;
+  color: #000 !important;
+  border-color: #9DE72F !important;
+}
+
+/* ── Platform index: Staff Access panel (logo purple) ────────────────────── */
+.plat-staff-access {
+  background: #3C0063;
+  color: #fff;
+  padding: 80px 0;
+}
+.plat-staff-access__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.plat-staff-access__label {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #9DE72F;
+  margin-bottom: 12px;
+}
+.plat-staff-access__title {
+  font-size: clamp(1.2rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: #fff;
+}
+.plat-staff-access__note {
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 400px;
+  margin: 0;
+}
+.plat-staff-access__action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.plat-staff-access__langs {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  display: flex;
+  gap: 6px;
+}
+.plat-book-btn--lime {
+  background: #9DE72F !important;
+  color: #000 !important;
+  border-color: #9DE72F !important;
+}
+.plat-book-btn--lime:hover {
+  background: #fff !important;
+  color: #3C0063 !important;
+  border-color: #fff !important;
+}
+@media (max-width: 768px) {
+  .plat-staff-access__inner { flex-direction: column; align-items: flex-start; }
+  .plat-staff-access__action { align-items: flex-start; }
+}

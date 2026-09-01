@@ -34,7 +34,7 @@
                                         {% for item in main_menu.items.all %}
                                             {% if not item.parent %}
                                                 {% with children=item.children.all %}
-                                                    <li class="{% if children %}dropdown-link menu-item-has-children{% endif %}">
+                                                    <li class="{% if children %}dropdown-link menu-item-has-children{% endif %} {{ item.css_class }}">
                                                         <a class="onovo-lnk lnk--active {% if children %}onovo-dropdown-toggle{% endif %}"
                                                            href="{% if item.page %}{% pageurl item.page %}{% else %}#{% endif %}">
                                                             {{ item.title }}
@@ -44,9 +44,9 @@
                                                             <i class="icon fas fa-chevron-down"></i>
                                                             <ul class="sub-menu">
                                                                 {% for child in children %}
-                                                                    <li>
+                                                                    <li class="{{ child.css_class }}">
                                                                         <a class="onovo-lnk lnk--active"
-                                                                           href="{% pageurl child.page %}">
+                                                                           href="{% if child.page %}{% pageurl child.page %}{% else %}#{% endif %}">
                                                                             {{ child.title }}
                                                                         </a>
                                                                     </li>
@@ -60,6 +60,21 @@
 
                                         <!-- Language Switcher Dropdown -->
                                         {% include "shared/language_switcher.html" %}
+
+                                        <!-- Mobile-only: CMS account controls (authenticated) -->
+                                        {% if request.user.is_authenticated %}
+                                        <li class="cms-mobile-auth" aria-label="Account">
+                                            <span class="cms-mobile-auth__label">
+                                                <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" style="width:12px;height:12px;vertical-align:middle;margin-right:5px;" aria-hidden="true"><circle cx="7" cy="4.5" r="2.5"/><path d="M1.5 13c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/></svg>
+                                                Signed in
+                                            </span>
+                                            <div class="cms-mobile-auth__actions">
+                                                <a href="/admin/" class="onovo-lnk lnk--active cms-mobile-auth__link">CMS</a>
+                                                <span class="cms-mobile-auth__sep" aria-hidden="true">|</span>
+                                                <a href="{% url 'wagtailadmin_logout' %}" class="onovo-lnk lnk--active cms-mobile-auth__link">Sign out</a>
+                                            </div>
+                                        </li>
+                                        {% endif %}
                                     </ul>
 
                                 </div>
@@ -68,24 +83,45 @@
                     </div>
                 </div>
 
-                <!-- CTA Button -->
-                {% if main_menu.cta_page %}
+                <!-- Right: CTA + staff pill (unauthenticated); cms-strip handles authenticated state -->
                 <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-3 align-self-center align-right">
-                    <a class="onovo-head-btn onovo-hover-btn"
-                       href="{% pageurl main_menu.cta_page %}">
-                        <span>
-                            <span class="onovo-lnk lnk--active">
-                                {{ main_menu.cta_label }}
+                    {% if not request.user.is_authenticated %}
+                    <div class="nav-right-group">
+                        {% if main_menu.cta_page %}
+                        <a class="onovo-head-btn onovo-hover-btn"
+                           href="{% pageurl main_menu.cta_page %}">
+                            <span>
+                                <span class="onovo-lnk lnk--active">{{ main_menu.cta_label }}</span>
                             </span>
-                        </span>
-                        <i class="arrow">
-                            <span></span>
-                        </i>
-                    </a>
+                            <i class="arrow"><span></span></i>
+                        </a>
+                        {% endif %}
+                        <a href="/admin/" class="nav-staff-pill">
+                            <img src="{% static 'assets/images/cd-symbol-purple.png' %}" alt="" style="height:14px;width:auto;display:block;opacity:0.8;">
+                            <span>Staff</span>
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
-                {% endif %}
 
             </div>
         </div>
-    </div>
+
+        <!-- Desktop CMS utility strip — authenticated only, flush to top-right edge -->
+        {% if request.user.is_authenticated %}
+        <div class="cms-strip" role="navigation" aria-label="CMS account">
+            <span class="cms-strip__status">
+                <svg class="cms-strip__icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="7" cy="4.5" r="2.5"/>
+                    <path d="M1.5 13c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/>
+                </svg>
+                <span>Signed in</span>
+            </span>
+            <a href="/admin/" class="cms-strip__link">CMS</a>
+            <span class="cms-strip__sep" aria-hidden="true"></span>
+            <a href="{% url 'wagtailadmin_logout' %}" class="cms-strip__signout">Sign out</a>
+        </div>
+        {% endif %}
+
+    </div><!-- /.header--builder -->
 </header>
