@@ -1,9 +1,30 @@
 services:
+  db:
+    image: mysql:8
+    container_name: catalystdev-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: catalystdev
+      MYSQL_USER: catalystdev
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - catalystdev-local
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "catalystdev", "-p${DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
   app:
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       DJANGO_SETTINGS_MODULE: dawn.settings.production
     volumes:
-      # Don't bind-mount source in production; use the image layer
       - staticfiles_vol:/app/staticfiles
       - media_vol:/app/media
     ports: []
@@ -16,4 +37,5 @@ services:
                --timeout 120"
 
 volumes:
+  db_data:
   media_vol:
