@@ -28,13 +28,14 @@ class Migration(migrations.Migration):
                 migrations.DeleteModel(name='ContactFormField'),
             ],
         ),
-        migrations.RemoveField(
-            model_name='contactformpage',
-            name='page_ptr',
-        ),
+        # Remove all FKs pointing to ContactFormPage.page_ptr_id before dropping it.
         migrations.RemoveField(
             model_name='projectpage',
             name='contact_form',
+        ),
+        migrations.RemoveField(
+            model_name='contactformpage',
+            name='page_ptr',
         ),
         migrations.RemoveField(
             model_name='serviceindexpage',
