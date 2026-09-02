@@ -617,8 +617,8 @@
                                     <span class="arr">→</span>
                                 </a>
                                 {% endif %}
-                                {% if request.user.is_staff and platform.demo_url %}
-                                <a href="{{ platform.demo_url }}" class="plat-book-btn plat-book-btn--launch" target="_blank" rel="noopener">
+                                {% if request.user.is_staff %}
+                                <a href="{% if platform.demo_url %}{{ platform.demo_url }}{% else %}/admin/pages/{{ platform.id }}/edit/{% endif %}" class="plat-book-btn plat-book-btn--launch" target="_blank" rel="noopener">
                                     Open Platform <span class="arr">→</span>
                                 </a>
                                 {% elif platform.demo_url and platform.status == "live" %}
