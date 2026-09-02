@@ -20,14 +20,7 @@ services:
     networks:
       - catalystdev-local
       - default
-    command: >
-      sh -c "python manage.py collectstatic --noinput --clear &&
-             python manage.py migrate --noinput &&
-             gunicorn dawn.wsgi:application
-               --bind 0.0.0.0:8000
-               --reload
-               --workers 2
-               --timeout 120"
+    command: ["sh", "-c", "python manage.py collectstatic --noinput --clear && python manage.py migrate --noinput && gunicorn dawn.wsgi:application --bind 0.0.0.0:8000 --reload --workers 2 --timeout 120"]
 
 volumes:
   staticfiles_vol:
