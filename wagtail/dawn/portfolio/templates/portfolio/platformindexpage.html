@@ -185,6 +185,16 @@
     display: flex;
     gap: 6px;
 }
+.plat-book-btn--launch {
+    background: transparent;
+    color: #C6F135;
+    border-color: rgba(198,241,53,0.45);
+}
+.plat-book-btn--launch:hover {
+    background: #C6F135;
+    color: #111;
+    border-color: #C6F135;
+}
 .plat-book-btn--lime {
     background: #9DE72F !important;
     color: #000 !important;
@@ -600,23 +610,21 @@
                             {% endif %}
                             {% endwith %}
 
-                            <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-                                {% if request.user.is_authenticated and platform.demo_url %}
-                                <a href="{{ platform.demo_url }}" class="plat-book-btn plat-book-btn--launch" target="_blank" rel="noopener">
-                                    Open Platform <span class="arr">→</span>
-                                </a>
-                                {% else %}
+                            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
                                 {% if platform.effective_booking_url %}
                                 <a href="{{ platform.effective_booking_url }}" class="plat-book-btn">
                                     {{ platform.booking_label|default:"Book to View" }}
                                     <span class="arr">→</span>
                                 </a>
                                 {% endif %}
-                                {% if platform.demo_url and platform.status == "live" %}
+                                {% if request.user.is_staff and platform.demo_url %}
+                                <a href="{{ platform.demo_url }}" class="plat-book-btn plat-book-btn--launch" target="_blank" rel="noopener">
+                                    Open Platform <span class="arr">→</span>
+                                </a>
+                                {% elif platform.demo_url and platform.status == "live" %}
                                 <a href="{{ platform.demo_url }}" target="_blank" rel="noopener noreferrer" class="plat-demo-link">
                                     {{ platform.demo_label|default:"Preview" }}
                                 </a>
-                                {% endif %}
                                 {% endif %}
                             </div>
 
