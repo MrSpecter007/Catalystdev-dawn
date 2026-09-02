@@ -41,19 +41,19 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: #111;
-    color: #fff;
+    background: #C6F135;
+    color: #111;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     padding: 14px 24px;
-    border: 1px solid #111;
+    border: 1px solid #C6F135;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
     cursor: pointer;
 }
-.plat-book-btn:hover { background: #C6F135; color: #111; border-color: #C6F135; }
+.plat-book-btn:hover { background: #111; color: #C6F135; border-color: #C6F135; }
 .plat-book-btn .arr { font-size: 14px; transition: transform 0.2s; }
 .plat-book-btn:hover .arr { transform: translateX(4px); }
 
@@ -363,7 +363,21 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center;
+}
+.plat-browser__placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a1a1a 0%, #111 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plat-browser__placeholder span {
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+    font-weight: 700;
 }
 </style>
 {% endblock %}
@@ -525,7 +539,6 @@
                     <div class="col-12 col-md-6" style="margin-bottom: 80px;">
                         <div class="plat-card">
 
-                            {% if platform.hero_image %}
                             <div class="plat-browser">
                                 <div class="plat-browser__bar">
                                     <span class="plat-browser__dot" style="background:#FF6058;"></span>
@@ -534,10 +547,15 @@
                                     <div class="plat-browser__url"></div>
                                 </div>
                                 <div class="plat-browser__viewport">
+                                    {% if platform.hero_image %}
                                     {% image platform.hero_image width-900 alt=platform.title %}
+                                    {% else %}
+                                    <div class="plat-browser__placeholder">
+                                        <span>{{ platform.category|default:"Platform" }}</span>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            {% endif %}
 
                             <span class="plat-chip plat-chip--{{ platform.status }}">
                                 {% if platform.status == "live" %}Live
