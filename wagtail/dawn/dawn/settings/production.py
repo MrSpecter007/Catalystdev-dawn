@@ -53,6 +53,9 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https") if HTTPS_ENABLED e
 # Wagtail
 WAGTAILADMIN_BASE_URL = os.environ.get("WAGTAILADMIN_BASE_URL", f"{REQUEST_SCHEME}://example.com")
 
+# Portal gate — set to the public URL of this Dawn site (e.g. http://2.25.147.203)
+PORTAL_GATE_BASE_URL = os.environ.get("PORTAL_GATE_BASE_URL", "http://catalystdev.localhost")
+
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "localhost")

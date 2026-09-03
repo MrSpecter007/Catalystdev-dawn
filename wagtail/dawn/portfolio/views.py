@@ -33,9 +33,13 @@ def _validate_portal_token(token_str):
 def _is_safe_next(url):
     try:
         parsed = urllib.parse.urlparse(url)
-        return parsed.scheme in ("http", "https") and (
-            parsed.netloc == "localhost"
-            or parsed.netloc.endswith(".localhost")
+        if parsed.scheme not in ("http", "https"):
+            return False
+        host = parsed.netloc.split(":")[0]  # strip port
+        return (
+            host == "localhost"
+            or host.endswith(".localhost")
+            or host.endswith(".nip.io")
         )
     except Exception:
         return False
@@ -117,11 +121,12 @@ def forward_auth_showrooms(request):
     # the original showroom URL as the post-auth redirect target.
     forwarded_host = request.META.get("HTTP_X_FORWARDED_HOST", "")
     forwarded_uri = request.META.get("HTTP_X_FORWARDED_URI", "/")
+    gate_base = getattr(settings, "PORTAL_GATE_BASE_URL", "http://catalystdev.localhost")
     if forwarded_host:
         next_url = urllib.parse.quote(f"http://{forwarded_host}{forwarded_uri}")
-        gate_url = f"http://catalystdev.localhost/portal/gate/?next={next_url}"
+        gate_url = f"{gate_base}/portal/gate/?next={next_url}"
     else:
-        gate_url = "http://catalystdev.localhost/portal/gate/"
+        gate_url = f"{gate_base}/portal/gate/"
 
     return HttpResponse(_gate_html(gate_url), status=401, content_type="text/html")
 
@@ -165,8 +170,9 @@ def portal_set(request):
 
     if not token_str or not _validate_portal_token(token_str):
         encoded_next = urllib.parse.quote(next_url)
+        gate_base = getattr(settings, "PORTAL_GATE_BASE_URL", "http://catalystdev.localhost")
         return HttpResponseRedirect(
-            f"http://catalystdev.localhost/portal/gate/?next={encoded_next}"
+            f"{gate_base}/portal/gate/?next={encoded_next}"
         )
 
     response = HttpResponseRedirect(next_url)
