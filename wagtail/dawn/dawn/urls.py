@@ -1,7 +1,7 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.contrib import admin
-from django.conf.urls.static import static
+from django.views.static import serve as serve_static
 
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail import urls as wagtail_urls
@@ -31,8 +31,11 @@ if settings.DEBUG:
 
     urlpatterns += staticfiles_urlpatterns()
 
-# Serve uploaded media files in all environments (Django handles it; acceptable for VPS/demo scale)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve uploaded media files in all environments.
+# static() returns [] when DEBUG=False, so register the serve view directly.
+urlpatterns += [
+    re_path(r"^media/(?P<path>.*)$", serve_static, {"document_root": settings.MEDIA_ROOT}),
+]
 
 urlpatterns += i18n_patterns(
     path("", include(wagtail_urls)),
