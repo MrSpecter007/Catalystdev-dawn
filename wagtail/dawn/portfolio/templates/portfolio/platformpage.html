@@ -189,10 +189,10 @@
                             {% endif %}
                             {% endwith %}
 
-                            <!-- Secondary: demo link -->
-                            {% if page.demo_url and page.status == "live" %}
+                            <!-- Authenticated platform access -->
+                            {% if request.user.is_authenticated and page.demo_url and page.status == "live" %}
                             <a href="{{ page.demo_url }}" target="_blank" rel="noopener noreferrer" class="plat-demo-link">
-                                {{ page.demo_label|default:"Preview" }} ↗
+                                Open Platform ↗
                             </a>
                             {% endif %}
 
